@@ -1,5 +1,7 @@
 package aggregator.lambda;
 
+import aggregator.AggregatorFilter;
+
 public abstract class CalculationFilter <T, U> implements Calculate<U>, Conversion<T, U>, Filter<T> {
 
     public U applyFilter(U val1, T val2){
@@ -35,6 +37,10 @@ public abstract class CalculationFilter <T, U> implements Calculate<U>, Conversi
 
     public static <M> CalculationFilter<M, M> getInstance(Calculate<M> calculate, Filter<M> fil){
         return getInstance(calculate, fil, obj -> obj);
+    }
+
+    public AggregatorFilter<T, U> getAggregator(String name){
+        return new AggregatorFilter<>(name, this);
     }
 
 }
