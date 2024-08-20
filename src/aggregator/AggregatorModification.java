@@ -38,7 +38,7 @@ public class AggregatorModification <T, U> implements  Aggregator<T, U> {
         return NAME;
     }
 
-    public CalculationModification<T, U> getMODIFICATION() {
+    public CalculationModification<T, U> getModification() {
         return MODIFICATION;
     }
 
