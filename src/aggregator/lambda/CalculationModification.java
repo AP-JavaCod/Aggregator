@@ -1,6 +1,8 @@
 package aggregator.lambda;
 
 import aggregator.AggregatorModification;
+import aggregator.modification.AggregatorFilterX;
+import aggregator.modification.AggregatorIterator;
 
 public abstract class CalculationModification <T, U> implements Calculate<U>, Conversion<T, U> {
 
@@ -32,6 +34,19 @@ public abstract class CalculationModification <T, U> implements Calculate<U>, Co
 
     public CalculationFilter<T, U> getFilter(Filter<T> filter){
         return CalculationFilter.getInstance(this, filter);
+    }
+
+    public <F> AggregatorFilterX<T, U, F> getAggregatorFilterX(String name, Filter<F> fil){
+        return new AggregatorFilterX<>(name, this) {
+            @Override
+            public boolean filter(F values) {
+                return fil.filter(values);
+            }
+        };
+    }
+
+    public AggregatorIterator<T, U> getIterator(String name, T[] values){
+        return new AggregatorIterator<>(name, this,  values);
     }
 
 }
