@@ -30,11 +30,7 @@ public abstract class AggregatorFilterX<T, U, F> implements Filter<F> {
             U result = null;
             for (int i = 0; i < values.length; i++) {
                 if (filter(fil[i])) {
-                    if (result != null) {
-                        result = MODIFICATION.applyModification(result, values[i]);
-                    } else {
-                        result = MODIFICATION.convert(values[i]);
-                    }
+                    result = result != null ? MODIFICATION.applyModification(result, values[i]) : MODIFICATION.convert(values[i]);
                 }
             }
             return result;

@@ -29,11 +29,7 @@ public class AggregatorFilter<T, U> implements Aggregator<T, U> {
     public U aggregation(T[] values) {
         U result = null;
         for (T i : values) {
-            if (result != null) {
-                result = FILTER.applyFilter(result, i);
-            } else {
-                result = FILTER.convertFilter(i);
-            }
+            result = result != null ? FILTER.applyFilter(result, i) : FILTER.convertFilter(i);
         }
         return result;
     }
