@@ -27,7 +27,15 @@ public class AggregatorFilter <T, U> implements Aggregator<T, U>{
 
     @Override
     public U aggregation(T[] values) {
-        return null;
+        U result = null;
+        for (T i: values){
+            if (result != null){
+                result = FILTER.applyFilter(result, i);
+            }else {
+                result = FILTER.convertFilter(i);
+            }
+        }
+        return result;
     }
 
     @Override
