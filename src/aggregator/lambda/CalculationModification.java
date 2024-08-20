@@ -30,4 +30,8 @@ public abstract class CalculationModification <T, U> implements Calculate<U>, Co
         return new AggregatorModification<>(name, this);
     }
 
+    public CalculationFilter<T, U> getFilter(Filter<T> filter){
+        return CalculationFilter.getInstance(this, filter);
+    }
+
 }
