@@ -16,13 +16,13 @@ public class TestProject {
         System.out.println("Aggregator modification");
         AggregatorModification<Integer, Integer> sumModification = sumLambda.getAggregator("Sum");
         AggregatorModification<Integer, String> textModification = textLambda.getAggregator("Text");
-        System.out.println(sumModification.aggregatorString(array));
-        System.out.println(textModification.aggregatorString(array));
+        System.out.println(sumModification.aggregationString(array));
+        System.out.println(textModification.aggregationString(array));
         System.out.println("Aggregator filter");
         AggregatorFilter<Integer, Integer> sumFilter = sumLambda.getFilter(i -> i % 2 == 0).getAggregator("Sum");
         AggregatorFilter<Integer, String> textFilter = textLambda.getFilter(i -> i % 2 == 0).getAggregator("Text");
-        System.out.println(sumFilter.aggregatorString(array));
-        System.out.println(textFilter.aggregatorString(array));
+        System.out.println(sumFilter.aggregationString(array));
+        System.out.println(textFilter.aggregationString(array));
         System.out.println("Aggregator filterX");
         AggregatorFilterX<Integer, Integer, String> sumFilterX = sumLambda.getAggregatorFilterX("Sum", s -> s.equals("Java"));
         AggregatorFilterX<Integer, String, String> textFilterX = textLambda.getAggregatorFilterX("Text", s -> s.equals("Java"));
