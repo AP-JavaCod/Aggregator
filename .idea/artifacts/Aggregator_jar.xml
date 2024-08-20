@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Aggregator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Aggregator_jar</output-path>
+    <root id="archive" name="Aggregator.jar">
+      <element id="module-output" name="Aggregator" />
+    </root>
+  </artifact>
+</component>
