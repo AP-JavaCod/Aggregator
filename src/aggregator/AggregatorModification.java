@@ -4,22 +4,22 @@ import aggregator.lambda.Calculate;
 import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
 
-public class AggregatorModification <T, U> implements  Aggregator<T, U> {
+public class AggregatorModification<T, U> implements Aggregator<T, U> {
 
     private final String NAME;
     private final CalculationModification<T, U> MODIFICATION;
 
-    public AggregatorModification(String name, CalculationModification<T, U> modification){
+    public AggregatorModification(String name, CalculationModification<T, U> modification) {
         NAME = name;
         MODIFICATION = modification;
     }
 
-    public AggregatorModification(String name, Calculate<U> calculate, Conversion<T, U> conversion){
+    public AggregatorModification(String name, Calculate<U> calculate, Conversion<T, U> conversion) {
         NAME = name;
         MODIFICATION = CalculationModification.getInstance(calculate, conversion);
     }
 
-    public AggregatorModification(String name, Calculate<U> calculate){
+    public AggregatorModification(String name, Calculate<U> calculate) {
         NAME = name;
         MODIFICATION = (CalculationModification<T, U>) CalculationModification.getInstance(calculate);
     }
@@ -27,7 +27,7 @@ public class AggregatorModification <T, U> implements  Aggregator<T, U> {
     @Override
     public U aggregation(T[] values) {
         U result = MODIFICATION.convert(values[0]);
-        for (int i = 1; i < values.length; i++){
+        for (int i = 1; i < values.length; i++) {
             result = MODIFICATION.applyModification(result, values[i]);
         }
         return result;

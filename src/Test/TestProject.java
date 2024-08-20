@@ -31,10 +31,10 @@ public class TestProject {
         System.out.println("Aggregator Iterator");
         AggregatorIterator<Integer, Integer> sumIterator = sumLambda.getIterator("Sum", array);
         AggregatorIterator<Integer, String> textIterator = textLambda.getIterator("Text", array);
-        for (int i: sumIterator){
+        for (int i : sumIterator) {
             System.out.println(i);
         }
-        for (String s: textIterator){
+        for (String s : textIterator) {
             System.out.println(s);
         }
     }

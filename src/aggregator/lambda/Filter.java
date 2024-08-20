@@ -1,6 +1,6 @@
 package aggregator.lambda;
 
-public interface Filter <T>{
+public interface Filter<T> {
 
     boolean filter(T values);
 }

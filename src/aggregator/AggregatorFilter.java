@@ -5,22 +5,22 @@ import aggregator.lambda.CalculationFilter;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
 
-public class AggregatorFilter <T, U> implements Aggregator<T, U>{
+public class AggregatorFilter<T, U> implements Aggregator<T, U> {
 
     private final String NAME;
     private final CalculationFilter<T, U> FILTER;
 
-    public AggregatorFilter(String name, CalculationFilter<T, U> filter){
+    public AggregatorFilter(String name, CalculationFilter<T, U> filter) {
         NAME = name;
         FILTER = filter;
     }
 
-    public AggregatorFilter(String name, Calculate<U> calculate, Filter<T> filter, Conversion<T, U> conversion){
+    public AggregatorFilter(String name, Calculate<U> calculate, Filter<T> filter, Conversion<T, U> conversion) {
         NAME = name;
         FILTER = CalculationFilter.getInstance(calculate, filter, conversion);
     }
 
-    public AggregatorFilter(String name, Calculate<U> calculate, Filter<T> filter){
+    public AggregatorFilter(String name, Calculate<U> calculate, Filter<T> filter) {
         NAME = name;
         FILTER = (CalculationFilter<T, U>) CalculationFilter.getInstance((Calculate<T>) calculate, filter);
     }
@@ -28,10 +28,10 @@ public class AggregatorFilter <T, U> implements Aggregator<T, U>{
     @Override
     public U aggregation(T[] values) {
         U result = null;
-        for (T i: values){
-            if (result != null){
+        for (T i : values) {
+            if (result != null) {
                 result = FILTER.applyFilter(result, i);
-            }else {
+            } else {
                 result = FILTER.convertFilter(i);
             }
         }
