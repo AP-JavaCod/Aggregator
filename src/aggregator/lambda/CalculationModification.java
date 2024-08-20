@@ -1,5 +1,7 @@
 package aggregator.lambda;
 
+import aggregator.AggregatorModification;
+
 public abstract class CalculationModification <T, U> implements Calculate<U>, Conversion<T, U> {
 
     public U applyModification(U val1, T val2){
@@ -22,6 +24,10 @@ public abstract class CalculationModification <T, U> implements Calculate<U>, Co
 
     public static <M> CalculationModification<M, M> getInstance(Calculate<M> calculate){
         return getInstance(calculate, obj -> obj);
+    }
+
+    public AggregatorModification<T, U> getAggregator(String name){
+        return new AggregatorModification<>(name, this);
     }
 
 }
