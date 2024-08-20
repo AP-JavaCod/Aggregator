@@ -1,6 +1,8 @@
 package aggregator.modification;
 
+import aggregator.lambda.Calculate;
 import aggregator.lambda.CalculationModification;
+import aggregator.lambda.Conversion;
 
 import java.util.Iterator;
 
@@ -13,6 +15,18 @@ public class AggregatorIterator <T, U> implements Iterable<U>{
     public AggregatorIterator(String name, CalculationModification<T, U> modification, T[] values){
         NAME = name;
         MODIFICATION = modification;
+        VALUES = values;
+    }
+
+    public AggregatorIterator(String name, Calculate<U> calculate, Conversion<T, U> conversion, T[] values){
+        NAME = name;
+        MODIFICATION = CalculationModification.getInstance(calculate, conversion);
+        VALUES = values;
+    }
+
+    public AggregatorIterator(String name, Calculate<U> calculate, T[] values){
+        NAME = name;
+        MODIFICATION = (CalculationModification<T, U>) CalculationModification.getInstance(calculate);
         VALUES = values;
     }
 
