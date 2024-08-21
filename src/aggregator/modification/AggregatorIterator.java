@@ -3,6 +3,7 @@ package aggregator.modification;
 import aggregator.lambda.Calculate;
 import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
+import aggregator.modification.adapter.AdapterIterator;
 
 import java.util.Iterator;
 
@@ -47,6 +48,10 @@ public class AggregatorIterator<T, U> implements Iterable<U> {
         return new ValuesIterator(values);
     }
 
+    public AdapterIterator<T, U> getAggregator(){
+        return new AdapterIterator<>(this);
+    }
+
     private class ValuesIterator implements Iterator<U> {
 
         private final T[] data;
@@ -68,10 +73,6 @@ public class AggregatorIterator<T, U> implements Iterable<U> {
                     MODIFICATION.convert(data[nextId]);
             nextId++;
             return result;
-        }
-
-        public String nextString() {
-            return NAME + " iteration " + nextId + ": " + next();
         }
 
     }
