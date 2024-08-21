@@ -40,23 +40,32 @@ public class AggregatorIterator<T, U> implements Iterable<U> {
 
     @Override
     public Iterator<U> iterator() {
-        return new ValuesIterator();
+        return new ValuesIterator(VALUES);
+    }
+
+    public Iterator<U> iterator(T[] values){
+        return new ValuesIterator(values);
     }
 
     private class ValuesIterator implements Iterator<U> {
 
+        private final T[] data;
         private U result = null;
         private int nextId = 0;
 
+        public ValuesIterator(T[] values){
+            this.data = values;
+        }
+
         @Override
         public boolean hasNext() {
-            return nextId < VALUES.length;
+            return nextId < data.length;
         }
 
         @Override
         public U next() {
-            result = (result != null) ? MODIFICATION.applyModification(result, VALUES[nextId]) :
-                    MODIFICATION.convert(VALUES[nextId]);
+            result = (result != null) ? MODIFICATION.applyModification(result, data[nextId]) :
+                    MODIFICATION.convert(data[nextId]);
             nextId++;
             return result;
         }
