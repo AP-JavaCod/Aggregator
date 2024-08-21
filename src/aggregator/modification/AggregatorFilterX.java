@@ -4,6 +4,7 @@ import aggregator.lambda.Calculate;
 import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
+import aggregator.modification.adapter.AdapterFilterX;
 
 public abstract class AggregatorFilterX<T, U, F> implements Filter<F> {
 
@@ -72,6 +73,10 @@ public abstract class AggregatorFilterX<T, U, F> implements Filter<F> {
                 return fil.filter(values);
             }
         };
+    }
+
+    public AdapterFilterX<T, U, F> getAggregator(F[] dataFilter){
+        return new AdapterFilterX<>(this, dataFilter);
     }
 
 }
