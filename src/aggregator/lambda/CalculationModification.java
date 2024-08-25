@@ -4,6 +4,7 @@ import aggregator.AggregatorModification;
 import aggregator.modification.AggregatorFilterX;
 import aggregator.modification.AggregatorIterator;
 
+@Deprecated
 public abstract class CalculationModification<T, U> implements Calculate<U>, Conversion<T, U> {
 
     public U applyModification(U val1, T val2) {
