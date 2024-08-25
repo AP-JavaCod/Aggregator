@@ -5,6 +5,8 @@ import aggregator.lambda.Calculate;
 import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
+import aggregator.modification.AggregatorFilterX;
+import aggregator.modification.AggregatorIterator;
 
 public abstract class ContainerFunction <T, U> implements Calculate<U>, Conversion<T, U> {
 
@@ -37,6 +39,19 @@ public abstract class ContainerFunction <T, U> implements Calculate<U>, Conversi
 
     public AggregatorModification<T, U> getAggregator(String name){
         return new AggregatorModification<>(name, this);
+    }
+
+    public AggregatorIterator<T, U> getIterator(String name, T[] values){
+        return new AggregatorIterator<>(name, this, values);
+    }
+
+    public <F> AggregatorFilterX<T, U, F> getAggregatorFilterX(String name, Filter<F> fil){
+        return new AggregatorFilterX<T, U, F>(name, this) {
+            @Override
+            public boolean filter(F values) {
+                return fil.filter(values);
+            }
+        };
     }
 
     public ContainerFunctionFilter<T, U> getFilter(Filter<T> filter){
