@@ -2,6 +2,7 @@ package aggregator.lambda;
 
 import aggregator.AggregatorFilter;
 
+@Deprecated
 public abstract class CalculationFilter<T, U> implements Calculate<U>, Conversion<T, U>, Filter<T> {
 
     public U applyFilter(U val1, T val2) {
