@@ -3,32 +3,39 @@ package aggregator;
 import aggregator.lambda.Calculate;
 import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
+import aggregator.lambda.container.ContainerFunction;
 
 public class AggregatorModification<T, U> implements Aggregator<T, U> {
 
     private final String NAME;
-    private final CalculationModification<T, U> MODIFICATION;
+    private final ContainerFunction<T, U> MODIFICATION;
 
+    @Deprecated
     public AggregatorModification(String name, CalculationModification<T, U> modification) {
         NAME = name;
-        MODIFICATION = modification;
+        MODIFICATION = ContainerFunction.getInstance(modification);
+    }
+
+    public AggregatorModification(String name, ContainerFunction<T, U> function){
+        NAME = name;
+        MODIFICATION = function;
     }
 
     public AggregatorModification(String name, Calculate<U> calculate, Conversion<T, U> conversion) {
         NAME = name;
-        MODIFICATION = CalculationModification.getInstance(calculate, conversion);
+        MODIFICATION = ContainerFunction.getInstance(calculate, conversion);
     }
 
     public AggregatorModification(String name, Calculate<U> calculate) {
         NAME = name;
-        MODIFICATION = (CalculationModification<T, U>) CalculationModification.getInstance(calculate);
+        MODIFICATION = (ContainerFunction<T, U>) ContainerFunction.getInstance(calculate);
     }
 
     @Override
     public U aggregation(T[] values) {
-        U result = MODIFICATION.convert(values[0]);
-        for (int i = 1; i < values.length; i++) {
-            result = MODIFICATION.applyModification(result, values[i]);
+        U result = null;
+        for (T obj : values){
+            result = MODIFICATION.calculate(result, obj);
         }
         return result;
     }
@@ -38,7 +45,7 @@ public class AggregatorModification<T, U> implements Aggregator<T, U> {
         return NAME;
     }
 
-    public CalculationModification<T, U> getModification() {
+    public ContainerFunction<T, U> getModification() {
         return MODIFICATION;
     }
 

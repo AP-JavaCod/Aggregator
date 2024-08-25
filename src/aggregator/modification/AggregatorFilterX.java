@@ -4,26 +4,33 @@ import aggregator.lambda.Calculate;
 import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
+import aggregator.lambda.container.ContainerFunction;
 import aggregator.modification.adapter.AdapterFilterX;
 
 public abstract class AggregatorFilterX<T, U, F> implements Filter<F> {
 
     private final String NAME;
-    private final CalculationModification<T, U> MODIFICATION;
+    private final ContainerFunction<T, U> MODIFICATION;
 
+    @Deprecated
     public AggregatorFilterX(String name, CalculationModification<T, U> modification) {
         NAME = name;
-        MODIFICATION = modification;
+        MODIFICATION = ContainerFunction.getInstance(modification);
+    }
+
+    public AggregatorFilterX(String name, ContainerFunction<T, U> function){
+        NAME = name;
+        MODIFICATION = function;
     }
 
     public AggregatorFilterX(String name, Calculate<U> calculate, Conversion<T, U> conversion) {
         NAME = name;
-        MODIFICATION = CalculationModification.getInstance(calculate, conversion);
+        MODIFICATION = ContainerFunction.getInstance(calculate, conversion);
     }
 
     public AggregatorFilterX(String name, Calculate<U> calculate) {
         NAME = name;
-        MODIFICATION = (CalculationModification<T, U>) CalculationModification.getInstance(calculate);
+        MODIFICATION = (ContainerFunction<T, U>) ContainerFunction.getInstance(calculate);
     }
 
     public U aggregation(T[] values, F[] fil) {
@@ -31,7 +38,7 @@ public abstract class AggregatorFilterX<T, U, F> implements Filter<F> {
             U result = null;
             for (int i = 0; i < values.length; i++) {
                 if (filter(fil[i])) {
-                    result = result != null ? MODIFICATION.applyModification(result, values[i]) : MODIFICATION.convert(values[i]);
+                    result = MODIFICATION.calculate(result, values[i]);
                 }
             }
             return result;
@@ -44,11 +51,11 @@ public abstract class AggregatorFilterX<T, U, F> implements Filter<F> {
         return NAME;
     }
 
-    public CalculationModification<T, U> getModification() {
+    public ContainerFunction<T, U> getModification() {
         return MODIFICATION;
     }
 
-    public static <M, N, G> AggregatorFilterX<M, N, G> getInstance(String name, CalculationModification<M, N> modification, Filter<G> fil) {
+    public static <M, N, G> AggregatorFilterX<M, N, G> getInstance(String name, ContainerFunction<M, N> modification, Filter<G> fil) {
         return new AggregatorFilterX<>(name, modification) {
             @Override
             public boolean filter(G values) {
