@@ -1,8 +1,10 @@
 package aggregator.lambda.container;
 
+import aggregator.AggregatorModification;
 import aggregator.lambda.Calculate;
 import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
+import aggregator.lambda.Filter;
 
 public abstract class ContainerFunction <T, U> implements Calculate<U>, Conversion<T, U> {
 
@@ -31,6 +33,14 @@ public abstract class ContainerFunction <T, U> implements Calculate<U>, Conversi
     @Deprecated
     public static <M, N> ContainerFunction<M, N> getInstance(CalculationModification<M, N> modification){
        return getInstance(modification, modification);
+    }
+
+    public AggregatorModification<T, U> getAggregator(String name){
+        return new AggregatorModification<>(name, this);
+    }
+
+    public ContainerFunctionFilter<T, U> getFilter(Filter<T> filter){
+        return ContainerFunctionFilter.getInstance(this, filter, this);
     }
 
 }
