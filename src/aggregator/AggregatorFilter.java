@@ -5,6 +5,7 @@ import aggregator.lambda.CalculationFilter;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
 
+@Deprecated
 public class AggregatorFilter<T, U> implements Aggregator<T, U> {
 
     private final String NAME;
