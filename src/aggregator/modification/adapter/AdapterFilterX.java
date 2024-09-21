@@ -3,12 +3,12 @@ package aggregator.modification.adapter;
 import aggregator.Aggregator;
 import aggregator.modification.AggregatorFilterX;
 
-public class AdapterFilterX <T, U, F> implements Aggregator<T, U> {
+public class AdapterFilterX<T, U, F> implements Aggregator<T, U> {
 
     private final AggregatorFilterX<T, U, F> AGGREGATOR;
     private final F[] FILER_DATA;
 
-    public AdapterFilterX(AggregatorFilterX<T, U, F> aggregator, F[] filterData){
+    public AdapterFilterX(AggregatorFilterX<T, U, F> aggregator, F[] filterData) {
         AGGREGATOR = aggregator;
         FILER_DATA = filterData;
     }

@@ -5,32 +5,30 @@ import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
 import aggregator.lambda.container.ContainerFunction;
+import aggregator.lambda.container.Modification;
 import aggregator.modification.adapter.AdapterFilterX;
 
-public abstract class AggregatorFilterX<T, U, F> implements Filter<F> {
-
-    private final String NAME;
-    private final ContainerFunction<T, U> MODIFICATION;
+public abstract class AggregatorFilterX<T, U, F> extends Modification<T, U> implements Filter<F> {
 
     @Deprecated
     public AggregatorFilterX(String name, CalculationModification<T, U> modification) {
-        NAME = name;
-        MODIFICATION = ContainerFunction.getInstance(modification);
+        super(name, modification);
     }
 
-    public AggregatorFilterX(String name, ContainerFunction<T, U> function){
-        NAME = name;
-        MODIFICATION = function;
+    public AggregatorFilterX(Modification<T, U> modification){
+        super(modification);
+    }
+
+    public AggregatorFilterX(String name, ContainerFunction<T, U> function) {
+        super(name, function);
     }
 
     public AggregatorFilterX(String name, Calculate<U> calculate, Conversion<T, U> conversion) {
-        NAME = name;
-        MODIFICATION = ContainerFunction.getInstance(calculate, conversion);
+        super(name, calculate, conversion);
     }
 
     public AggregatorFilterX(String name, Calculate<U> calculate) {
-        NAME = name;
-        MODIFICATION = (ContainerFunction<T, U>) ContainerFunction.getInstance(calculate);
+        super(name, calculate);
     }
 
     public U aggregation(T[] values, F[] fil) {
@@ -38,21 +36,13 @@ public abstract class AggregatorFilterX<T, U, F> implements Filter<F> {
             U result = null;
             for (int i = 0; i < values.length; i++) {
                 if (filter(fil[i])) {
-                    result = MODIFICATION.calculate(result, values[i]);
+                    result = getFunction().calculate(result, values[i]);
                 }
             }
             return result;
         } else {
             throw new ArrayIndexOutOfBoundsException(values.length);
         }
-    }
-
-    public String getName() {
-        return NAME;
-    }
-
-    public ContainerFunction<T, U> getModification() {
-        return MODIFICATION;
     }
 
     public static <M, N, G> AggregatorFilterX<M, N, G> getInstance(String name, ContainerFunction<M, N> modification, Filter<G> fil) {
@@ -82,7 +72,7 @@ public abstract class AggregatorFilterX<T, U, F> implements Filter<F> {
         };
     }
 
-    public AdapterFilterX<T, U, F> getAggregator(F[] dataFilter){
+    public AdapterFilterX<T, U, F> getAggregator(F[] dataFilter) {
         return new AdapterFilterX<>(this, dataFilter);
     }
 

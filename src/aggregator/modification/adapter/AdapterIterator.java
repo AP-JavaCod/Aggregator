@@ -5,17 +5,17 @@ import aggregator.modification.AggregatorIterator;
 
 import java.util.Iterator;
 
-public class AdapterIterator <T, U> implements Aggregator<T, U> {
+public class AdapterIterator<T, U> implements Aggregator<T, U> {
 
     private final AggregatorIterator<T, U> AGGREGATOR;
 
-    public AdapterIterator(AggregatorIterator<T, U> aggregator){
+    public AdapterIterator(AggregatorIterator<T, U> aggregator) {
         AGGREGATOR = aggregator;
     }
 
-    public U aggregation(){
+    public U aggregation() {
         U result = null;
-        for (U val: AGGREGATOR){
+        for (U val : AGGREGATOR) {
             result = val;
         }
         return result;
@@ -25,7 +25,7 @@ public class AdapterIterator <T, U> implements Aggregator<T, U> {
     public U aggregation(T[] values) {
         U result = null;
         Iterator<U> iterator = AGGREGATOR.iterator(values);
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             result = iterator.next();
         }
         return result;
@@ -36,7 +36,7 @@ public class AdapterIterator <T, U> implements Aggregator<T, U> {
         return AGGREGATOR.getName();
     }
 
-    public String aggregationString(){
+    public String aggregationString() {
         return AGGREGATOR.getName() + ": " + aggregation();
     }
 

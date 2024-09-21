@@ -21,7 +21,7 @@ public class AggregatorIterator<T, U> implements Iterable<U> {
         VALUES = values;
     }
 
-    public AggregatorIterator(String name, ContainerFunction<T, U> function, T[] values){
+    public AggregatorIterator(String name, ContainerFunction<T, U> function, T[] values) {
         NAME = name;
         MODIFICATION = function;
         VALUES = values;
@@ -52,11 +52,11 @@ public class AggregatorIterator<T, U> implements Iterable<U> {
         return new ValuesIterator(VALUES);
     }
 
-    public Iterator<U> iterator(T[] values){
+    public Iterator<U> iterator(T[] values) {
         return new ValuesIterator(values);
     }
 
-    public AdapterIterator<T, U> getAggregator(){
+    public AdapterIterator<T, U> getAggregator() {
         return new AdapterIterator<>(this);
     }
 
@@ -66,7 +66,7 @@ public class AggregatorIterator<T, U> implements Iterable<U> {
         private U result = null;
         private int nextId = 0;
 
-        public ValuesIterator(T[] values){
+        public ValuesIterator(T[] values) {
             this.data = values;
         }
 
