@@ -1,16 +1,10 @@
 package aggregator;
 
 import aggregator.lambda.Calculate;
-import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.container.*;
 
 public class AggregatorModification<T, U> extends Modification<T, U> implements Aggregator<T, U> {
-
-    @Deprecated
-    public AggregatorModification(String name, CalculationModification<T, U> modification) {
-        super(name, modification);
-    }
 
     public AggregatorModification(Modification<T, U> modification){
         super(modification);

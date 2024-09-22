@@ -1,7 +1,6 @@
 package aggregator.modification;
 
 import aggregator.lambda.Calculate;
-import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.container.ContainerFunction;
 import aggregator.lambda.container.Modification;
@@ -12,12 +11,6 @@ import java.util.Iterator;
 public class AggregatorIterator<T, U> extends Modification<T, U> implements Iterable<U> {
 
     private final T[] VALUES;
-
-    @Deprecated
-    public AggregatorIterator(String name, CalculationModification<T, U> modification, T[] values) {
-        super(name, modification);
-        VALUES = values;
-    }
 
     public AggregatorIterator(Modification<T, U> modification, T[] values){
         super(modification);

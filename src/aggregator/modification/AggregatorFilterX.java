@@ -1,7 +1,6 @@
 package aggregator.modification;
 
 import aggregator.lambda.Calculate;
-import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
 import aggregator.lambda.container.ContainerFunction;
@@ -9,11 +8,6 @@ import aggregator.lambda.container.Modification;
 import aggregator.modification.adapter.AdapterFilterX;
 
 public abstract class AggregatorFilterX<T, U, F> extends Modification<T, U> implements Filter<F> {
-
-    @Deprecated
-    public AggregatorFilterX(String name, CalculationModification<T, U> modification) {
-        super(name, modification);
-    }
 
     public AggregatorFilterX(Modification<T, U> modification){
         super(modification);

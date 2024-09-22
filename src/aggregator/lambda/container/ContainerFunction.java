@@ -1,12 +1,8 @@
 package aggregator.lambda.container;
 
-import aggregator.AggregatorModification;
 import aggregator.lambda.Calculate;
-import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
-import aggregator.modification.AggregatorFilterX;
-import aggregator.modification.AggregatorIterator;
 
 public abstract class ContainerFunction<T, U> implements Calculate<U>, Conversion<T, U> {
 
@@ -32,26 +28,9 @@ public abstract class ContainerFunction<T, U> implements Calculate<U>, Conversio
         return getInstance(calculate, obj -> obj);
     }
 
-    @Deprecated
-    public static <M, N> ContainerFunction<M, N> getInstance(CalculationModification<M, N> modification) {
-        return getInstance(modification, modification);
-    }
-
     public Modification<T, U> getModification(String name){
         return new Modification<>(name, this);
     }
-
-    /*public AggregatorModification<T, U> getAggregator(String name) {
-        return getModification(name).getAggregator();
-    }
-
-    public AggregatorIterator<T, U> getIterator(String name, T[] values) {
-        return getModification(name).getIterator(values);
-    }
-
-    public <F> AggregatorFilterX<T, U, F> getAggregatorFilterX(String name, Filter<F> fil){
-        return getModification(name).getFilterX(fil);
-    }*/
 
     public ContainerFunctionFilter<T, U> getFilter(Filter<T> filter) {
         return ContainerFunctionFilter.getInstance(this, filter, this);

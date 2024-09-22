@@ -2,7 +2,6 @@ package aggregator.lambda.container;
 
 import aggregator.AggregatorModification;
 import aggregator.lambda.Calculate;
-import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
 import aggregator.modification.AggregatorFilterX;
@@ -12,12 +11,6 @@ public class Modification <T, U> implements ContainerModification<T, U> {
 
     private final String name;
     private final ContainerFunction<T, U> function;
-
-    @Deprecated
-    public Modification(String name, CalculationModification<T, U> modification){
-        this.name = name;
-        this.function = ContainerFunction.getInstance(modification);
-    }
 
     public Modification(Modification<T, U> modification){
         this.name = modification.name;
