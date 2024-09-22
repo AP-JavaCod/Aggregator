@@ -6,8 +6,9 @@ import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
 import aggregator.modification.AggregatorFilterX;
+import aggregator.modification.AggregatorIterator;
 
-public class Modification <T, U> {
+public class Modification <T, U> implements ContainerModification<T, U> {
 
     private final String name;
     private final ContainerFunction<T, U> function;
@@ -38,10 +39,12 @@ public class Modification <T, U> {
         this.function = (ContainerFunction<T, U>) ContainerFunction.getInstance(calculate);
     }
 
+    @Override
     public ContainerFunction<T, U> getFunction() {
         return function;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -57,6 +60,10 @@ public class Modification <T, U> {
                 return fil.filter(values);
             }
         };
+    }
+
+    public AggregatorIterator<T, U> getIterator(T[] values){
+        return new AggregatorIterator<>(this, values);
     }
 
 }

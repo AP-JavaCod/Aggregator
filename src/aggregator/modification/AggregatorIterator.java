@@ -4,47 +4,39 @@ import aggregator.lambda.Calculate;
 import aggregator.lambda.CalculationModification;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.container.ContainerFunction;
+import aggregator.lambda.container.Modification;
 import aggregator.modification.adapter.AdapterIterator;
 
 import java.util.Iterator;
 
-public class AggregatorIterator<T, U> implements Iterable<U> {
+public class AggregatorIterator<T, U> extends Modification<T, U> implements Iterable<U> {
 
-    private final String NAME;
-    private final ContainerFunction<T, U> MODIFICATION;
     private final T[] VALUES;
 
     @Deprecated
     public AggregatorIterator(String name, CalculationModification<T, U> modification, T[] values) {
-        NAME = name;
-        MODIFICATION = ContainerFunction.getInstance(modification);
+        super(name, modification);
+        VALUES = values;
+    }
+
+    public AggregatorIterator(Modification<T, U> modification, T[] values){
+        super(modification);
         VALUES = values;
     }
 
     public AggregatorIterator(String name, ContainerFunction<T, U> function, T[] values) {
-        NAME = name;
-        MODIFICATION = function;
+        super(name, function);
         VALUES = values;
     }
 
     public AggregatorIterator(String name, Calculate<U> calculate, Conversion<T, U> conversion, T[] values) {
-        NAME = name;
-        MODIFICATION = ContainerFunction.getInstance(calculate, conversion);
+       super(name, calculate, conversion);
         VALUES = values;
     }
 
     public AggregatorIterator(String name, Calculate<U> calculate, T[] values) {
-        NAME = name;
-        MODIFICATION = (ContainerFunction<T, U>) ContainerFunction.getInstance(calculate);
+        super(name, calculate);
         VALUES = values;
-    }
-
-    public String getName() {
-        return NAME;
-    }
-
-    public ContainerFunction<T, U> getModification() {
-        return MODIFICATION;
     }
 
     @Override
@@ -56,7 +48,7 @@ public class AggregatorIterator<T, U> implements Iterable<U> {
         return new ValuesIterator(values);
     }
 
-    public AdapterIterator<T, U> getAggregator() {
+    public AdapterIterator<T, U> getAdapter() {
         return new AdapterIterator<>(this);
     }
 
@@ -77,7 +69,7 @@ public class AggregatorIterator<T, U> implements Iterable<U> {
 
         @Override
         public U next() {
-            result = MODIFICATION.calculate(result, data[nextId]);
+            result = getFunction().calculate(result, data[nextId]);
             nextId++;
             return result;
         }

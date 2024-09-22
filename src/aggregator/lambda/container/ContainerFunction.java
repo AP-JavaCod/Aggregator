@@ -37,22 +37,21 @@ public abstract class ContainerFunction<T, U> implements Calculate<U>, Conversio
         return getInstance(modification, modification);
     }
 
-    public AggregatorModification<T, U> getAggregator(String name) {
-        return new AggregatorModification<>(name, this);
+    public Modification<T, U> getModification(String name){
+        return new Modification<>(name, this);
+    }
+
+    /*public AggregatorModification<T, U> getAggregator(String name) {
+        return getModification(name).getAggregator();
     }
 
     public AggregatorIterator<T, U> getIterator(String name, T[] values) {
-        return new AggregatorIterator<>(name, this, values);
+        return getModification(name).getIterator(values);
     }
 
     public <F> AggregatorFilterX<T, U, F> getAggregatorFilterX(String name, Filter<F> fil){
-        return new AggregatorFilterX<T, U, F>(name, this) {
-            @Override
-            public boolean filter(F values) {
-                return fil.filter(values);
-            }
-        };
-    }
+        return getModification(name).getFilterX(fil);
+    }*/
 
     public ContainerFunctionFilter<T, U> getFilter(Filter<T> filter) {
         return ContainerFunctionFilter.getInstance(this, filter, this);
