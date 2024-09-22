@@ -11,6 +11,11 @@ public abstract class ContainerFunctionFilter<T, U> extends ContainerFunction<T,
         return filter(values) ? super.calculate(result, values) : result;
     }
 
+    @Override
+    public ContainerFunctionFilter<T, U> getFilter(Filter<T> fil) {
+        return super.getFilter(v -> filter(v) && fil.filter(v));
+    }
+
     public static <M, N> ContainerFunctionFilter<M, N> getInstance(Calculate<N> calculate, Filter<M> fil, Conversion<M, N> conversion) {
         return new ContainerFunctionFilter<>() {
             @Override
