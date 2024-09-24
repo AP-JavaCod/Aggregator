@@ -12,7 +12,7 @@ public class AggregatorIterator<T, U> extends Modification<T, U> implements Iter
 
     private final T[] VALUES;
 
-    public AggregatorIterator(Modification<T, U> modification, T[] values){
+    public AggregatorIterator(Modification<T, U> modification, T[] values) {
         super(modification);
         VALUES = values;
     }
@@ -23,13 +23,23 @@ public class AggregatorIterator<T, U> extends Modification<T, U> implements Iter
     }
 
     public AggregatorIterator(String name, Calculate<U> calculate, Conversion<T, U> conversion, T[] values) {
-       super(name, calculate, conversion);
+        super(name, calculate, conversion);
         VALUES = values;
     }
 
     public AggregatorIterator(String name, Calculate<U> calculate, T[] values) {
         super(name, calculate);
         VALUES = values;
+    }
+
+    public Object[] aggregatorAll() {
+        Object[] array = new Object[VALUES.length];
+        int i = 0;
+        for (U val : this) {
+            array[i] = val;
+            i++;
+        }
+        return array;
     }
 
     @Override
@@ -62,7 +72,7 @@ public class AggregatorIterator<T, U> extends Modification<T, U> implements Iter
 
         @Override
         public U next() {
-            result = getFunction().calculate(result, data[nextId]);
+            result = calculate(result, data[nextId]);
             nextId++;
             return result;
         }

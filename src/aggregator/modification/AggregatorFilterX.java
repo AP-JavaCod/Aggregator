@@ -9,7 +9,7 @@ import aggregator.modification.adapter.AdapterFilterX;
 
 public abstract class AggregatorFilterX<T, U, F> extends Modification<T, U> implements Filter<F> {
 
-    public AggregatorFilterX(Modification<T, U> modification){
+    public AggregatorFilterX(Modification<T, U> modification) {
         super(modification);
     }
 
@@ -30,7 +30,7 @@ public abstract class AggregatorFilterX<T, U, F> extends Modification<T, U> impl
             U result = null;
             for (int i = 0; i < values.length; i++) {
                 if (filter(fil[i])) {
-                    result = getFunction().calculate(result, values[i]);
+                    result = calculate(result, values[i]);
                 }
             }
             return result;

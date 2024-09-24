@@ -6,7 +6,7 @@ import aggregator.lambda.container.*;
 
 public class AggregatorModification<T, U> extends Modification<T, U> implements Aggregator<T, U> {
 
-    public AggregatorModification(Modification<T, U> modification){
+    public AggregatorModification(Modification<T, U> modification) {
         super(modification);
     }
 
@@ -26,7 +26,7 @@ public class AggregatorModification<T, U> extends Modification<T, U> implements 
     public U aggregation(T[] values) {
         U result = null;
         for (T obj : values) {
-            result = getFunction().calculate(result, obj);
+            result = calculate(result, obj);
         }
         return result;
     }

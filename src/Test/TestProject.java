@@ -8,6 +8,8 @@ import aggregator.lambda.container.Modification;
 import aggregator.modification.AggregatorFilterX;
 import aggregator.modification.AggregatorIterator;
 
+import java.util.Arrays;
+
 public class TestProject {
 
     public static void main(String[] args) {
@@ -21,12 +23,12 @@ public class TestProject {
         print(sumLambda.getFilter(filter).getModification("Sum"), textLambda.getFilter(filter).getModification("Text"));
     }
 
-    public static void print(Aggregator<Integer, ?> aggregator){
+    public static void print(Aggregator<Integer, ?> aggregator) {
         Integer[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9};
         System.out.println(aggregator.aggregationString(array));
     }
 
-    public static void print(Modification<Integer, Integer> sumLambda, Modification<Integer, String> textLambda){
+    public static void print(Modification<Integer, Integer> sumLambda, Modification<Integer, String> textLambda) {
         Integer[] array = {1, 4, 5, 8};
         String[] data = {"Java", "C++", "Java", "C#", "Kotlin", "JS", "Java", "C++", "JS"};
         System.out.println("Aggregator modification");
@@ -45,12 +47,14 @@ public class TestProject {
         print(sumIterator.getAggregator());
         print(textIterator.getAggregator());
         System.out.println("For each");
-        for (Integer i: sumIterator){
+        for (Integer i : sumIterator) {
             System.out.println(i);
         }
-        for (String t : textIterator){
+        System.out.println(Arrays.toString(sumIterator.aggregatorAll()));
+        for (String t : textIterator) {
             System.out.println(t);
         }
+        System.out.println(Arrays.toString(sumIterator.aggregatorAll()));
     }
 
 }
