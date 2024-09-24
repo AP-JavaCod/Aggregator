@@ -30,7 +30,7 @@ public abstract class ContainerFunction<T, U> implements Container<T, U>, Calcul
     }
 
     public Modification<T, U> getModification(String name){
-        return new Modification<>(name, this);
+        return new Modification<>(name, this::calculate);
     }
 
     public ContainerFunctionFilter<T, U> getFilter(Filter<T> filter) {

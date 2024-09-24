@@ -4,5 +4,5 @@ public interface ContainerModification <T, U> {
 
     String getName();
 
-    ContainerFunction<T, U> getFunction();
+    Container<T, U> getFunction();
 }

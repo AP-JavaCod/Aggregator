@@ -7,14 +7,14 @@ import aggregator.modification.*;
 public class Modification<T, U> implements ContainerModification<T, U> {
 
     private final String name;
-    private final ContainerFunction<T, U> function;
+    private final Container<T, U> function;
 
     public Modification(Modification<T, U> modification) {
         this.name = modification.name;
         this.function = modification.function;
     }
 
-    public Modification(String name, ContainerFunction<T, U> function) {
+    public Modification(String name, Container<T, U> function) {
         this.name = name;
         this.function = function;
     }
@@ -26,11 +26,11 @@ public class Modification<T, U> implements ContainerModification<T, U> {
 
     public Modification(String name, Calculate<U> calculate) {
         this.name = name;
-        this.function = (ContainerFunction<T, U>) ContainerFunction.getInstance(calculate);
+        this.function = (Container<T, U>) ContainerFunction.getInstance(calculate);
     }
 
     @Override
-    public ContainerFunction<T, U> getFunction() {
+    public Container<T, U> getFunction() {
         return function;
     }
 

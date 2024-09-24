@@ -3,7 +3,7 @@ package aggregator.modification;
 import aggregator.lambda.Calculate;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
-import aggregator.lambda.container.ContainerFunction;
+import aggregator.lambda.container.Container;
 import aggregator.lambda.container.Modification;
 import aggregator.modification.adapter.AdapterFilterX;
 
@@ -13,7 +13,7 @@ public abstract class AggregatorFilterX<T, U, F> extends Modification<T, U> impl
         super(modification);
     }
 
-    public AggregatorFilterX(String name, ContainerFunction<T, U> function) {
+    public AggregatorFilterX(String name, Container<T, U> function) {
         super(name, function);
     }
 
@@ -39,7 +39,7 @@ public abstract class AggregatorFilterX<T, U, F> extends Modification<T, U> impl
         }
     }
 
-    public static <M, N, G> AggregatorFilterX<M, N, G> getInstance(String name, ContainerFunction<M, N> modification, Filter<G> fil) {
+    public static <M, N, G> AggregatorFilterX<M, N, G> getInstance(String name, Container<M, N> modification, Filter<G> fil) {
         return new AggregatorFilterX<>(name, modification) {
             @Override
             public boolean filter(G values) {

@@ -2,7 +2,7 @@ package aggregator.modification;
 
 import aggregator.lambda.Calculate;
 import aggregator.lambda.Conversion;
-import aggregator.lambda.container.ContainerFunction;
+import aggregator.lambda.container.Container;
 import aggregator.lambda.container.Modification;
 import aggregator.modification.adapter.AdapterIterator;
 
@@ -17,7 +17,7 @@ public class AggregatorIterator<T, U> extends Modification<T, U> implements Iter
         VALUES = values;
     }
 
-    public AggregatorIterator(String name, ContainerFunction<T, U> function, T[] values) {
+    public AggregatorIterator(String name, Container<T, U> function, T[] values) {
         super(name, function);
         VALUES = values;
     }

@@ -10,7 +10,7 @@ public class AggregatorModification<T, U> extends Modification<T, U> implements 
         super(modification);
     }
 
-    public AggregatorModification(String name, ContainerFunction<T, U> function) {
+    public AggregatorModification(String name, Container<T, U> function) {
         super(name, function);
     }
 
