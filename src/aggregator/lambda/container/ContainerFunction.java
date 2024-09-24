@@ -4,8 +4,9 @@ import aggregator.lambda.Calculate;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
 
-public abstract class ContainerFunction<T, U> implements Calculate<U>, Conversion<T, U> {
+public abstract class ContainerFunction<T, U> implements Container<T, U>, Calculate<U>, Conversion<T, U> {
 
+    @Override
     public U calculate(U result, T values) {
         return result != null ? apply(result, convert(values)) : convert(values);
     }
