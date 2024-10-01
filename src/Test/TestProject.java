@@ -3,8 +3,8 @@ package Test;
 import aggregator.Aggregator;
 import aggregator.AggregatorModification;
 import aggregator.lambda.Filter;
-import aggregator.lambda.container.ContainerFunction;
-import aggregator.lambda.container.Modification;
+import aggregator.container.ContainerFunction;
+import aggregator.container.ModificationContainer;
 import aggregator.modification.AggregatorFilterX;
 import aggregator.modification.AggregatorIterator;
 
@@ -28,7 +28,7 @@ public class TestProject {
         System.out.println(aggregator.aggregationString(array));
     }
 
-    public static void print(Modification<Integer, Integer> sumLambda, Modification<Integer, String> textLambda) {
+    public static void print(ModificationContainer<Integer, Integer> sumLambda, ModificationContainer<Integer, String> textLambda) {
         Integer[] array = {1, 4, 5, 8};
         String[] data = {"Java", "C++", "Java", "C#", "Kotlin", "JS", "Java", "C++", "JS"};
         System.out.println("Aggregator modification");

@@ -3,13 +3,13 @@ package aggregator.modification;
 import aggregator.lambda.Calculate;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
-import aggregator.lambda.container.Container;
-import aggregator.lambda.container.Modification;
+import aggregator.container.Container;
+import aggregator.container.ModificationContainer;
 import aggregator.modification.adapter.AdapterFilterX;
 
-public abstract class AggregatorFilterX<T, U, F> extends Modification<T, U> implements Filter<F> {
+public abstract class AggregatorFilterX<T, U, F> extends ModificationContainer<T, U> implements Filter<F> {
 
-    public AggregatorFilterX(Modification<T, U> modification) {
+    public AggregatorFilterX(ModificationContainer<T, U> modification) {
         super(modification);
     }
 

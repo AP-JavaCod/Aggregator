@@ -1,4 +1,4 @@
-package aggregator.lambda.container;
+package aggregator.container;
 
 import aggregator.lambda.Calculate;
 import aggregator.lambda.Conversion;

@@ -1,8 +1,6 @@
-package aggregator.lambda.container;
+package aggregator.container;
 
-import aggregator.lambda.Calculate;
-import aggregator.lambda.Conversion;
-import aggregator.lambda.Filter;
+import aggregator.lambda.*;
 
 public abstract class ContainerFunction<T, U> implements Container<T, U>, Calculate<U>, Conversion<T, U> {
 
@@ -27,10 +25,6 @@ public abstract class ContainerFunction<T, U> implements Container<T, U>, Calcul
 
     public static <M> ContainerFunction<M, M> getInstance(Calculate<M> calculate) {
         return getInstance(calculate, obj -> obj);
-    }
-
-    public Modification<T, U> getModification(String name){
-        return new Modification<>(name, this::calculate);
     }
 
     public ContainerFunctionFilter<T, U> getFilter(Filter<T> filter) {

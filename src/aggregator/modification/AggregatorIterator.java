@@ -2,17 +2,17 @@ package aggregator.modification;
 
 import aggregator.lambda.Calculate;
 import aggregator.lambda.Conversion;
-import aggregator.lambda.container.Container;
-import aggregator.lambda.container.Modification;
+import aggregator.container.Container;
+import aggregator.container.ModificationContainer;
 import aggregator.modification.adapter.AdapterIterator;
 
 import java.util.Iterator;
 
-public class AggregatorIterator<T, U> extends Modification<T, U> implements Iterable<U> {
+public class AggregatorIterator<T, U> extends ModificationContainer<T, U> implements Iterable<U> {
 
     private final T[] VALUES;
 
-    public AggregatorIterator(Modification<T, U> modification, T[] values) {
+    public AggregatorIterator(ModificationContainer<T, U> modification, T[] values) {
         super(modification);
         VALUES = values;
     }

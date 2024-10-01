@@ -1,30 +1,30 @@
-package aggregator.lambda.container;
+package aggregator.container;
 
 import aggregator.AggregatorModification;
 import aggregator.lambda.*;
 import aggregator.modification.*;
 
-public class Modification<T, U> implements ContainerModification<T, U> {
+public class ModificationContainer<T, U> implements Modification<T, U> {
 
     private final String name;
     private final Container<T, U> function;
 
-    public Modification(Modification<T, U> modification) {
+    public ModificationContainer(ModificationContainer<T, U> modification) {
         this.name = modification.name;
         this.function = modification.function;
     }
 
-    public Modification(String name, Container<T, U> function) {
+    public ModificationContainer(String name, Container<T, U> function) {
         this.name = name;
         this.function = function;
     }
 
-    public Modification(String name, Calculate<U> calculate, Conversion<T, U> conversion) {
+    public ModificationContainer(String name, Calculate<U> calculate, Conversion<T, U> conversion) {
         this.name = name;
         this.function = ContainerFunction.getInstance(calculate, conversion);
     }
 
-    public Modification(String name, Calculate<U> calculate) {
+    public ModificationContainer(String name, Calculate<U> calculate) {
         this.name = name;
         this.function = (Container<T, U>) ContainerFunction.getInstance(calculate);
     }

@@ -2,11 +2,11 @@ package aggregator;
 
 import aggregator.lambda.Calculate;
 import aggregator.lambda.Conversion;
-import aggregator.lambda.container.*;
+import aggregator.container.*;
 
-public class AggregatorModification<T, U> extends Modification<T, U> implements Aggregator<T, U> {
+public class AggregatorModification<T, U> extends ModificationContainer<T, U> implements Aggregator<T, U> {
 
-    public AggregatorModification(Modification<T, U> modification) {
+    public AggregatorModification(ModificationContainer<T, U> modification) {
         super(modification);
     }
 

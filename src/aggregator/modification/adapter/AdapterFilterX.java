@@ -4,16 +4,16 @@ import aggregator.Aggregator;
 import aggregator.lambda.Calculate;
 import aggregator.lambda.Conversion;
 import aggregator.lambda.Filter;
-import aggregator.lambda.container.Container;
-import aggregator.lambda.container.Modification;
+import aggregator.container.Container;
+import aggregator.container.ModificationContainer;
 import aggregator.modification.AggregatorFilterX;
 
-public class AdapterFilterX<T, U, F> extends Modification<T, U> implements Aggregator<T, U> {
+public class AdapterFilterX<T, U, F> extends ModificationContainer<T, U> implements Aggregator<T, U> {
 
     private final AggregatorFilterX<T, U, F> AGGREGATOR;
     private final F[] FILER_DATA;
 
-    public AdapterFilterX(Modification<T, U> modification, Filter<F> filter, F[] filterData) {
+    public AdapterFilterX(ModificationContainer<T, U> modification, Filter<F> filter, F[] filterData) {
         super(modification);
         AGGREGATOR = getFilterX(filter);
         FILER_DATA = filterData;
