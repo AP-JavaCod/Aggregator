@@ -7,6 +7,7 @@ import aggregator.container.ContainerFunction;
 import aggregator.container.ModificationContainer;
 import aggregator.modification.AggregatorFilterX;
 import aggregator.modification.AggregatorIterator;
+import aggregator.monad.ContainerMonad;
 
 import java.util.Arrays;
 
@@ -21,6 +22,26 @@ public class TestProject {
         System.out.println("Filter");
         Filter<Integer> filter = i -> i % 2 == 0;
         print(sumLambda.getFilter(filter).getModification("Sum"), textLambda.getFilter(filter).getModification("Text"));
+        Integer[] a = {111, 22, 333333};
+        Aggregator<Integer, String> monad = ContainerMonad.from((Integer i) -> String.valueOf(i))
+                .map(String::toCharArray)
+                .mapAggregation("Test", (String[] result, char[] values) -> {
+                    String[] strings = result == null ? new String[0] : result;
+                    int l = Math.max(strings.length, values.length);
+                    String[] res = new String[l];
+                    for (int i = 0; i < l; i++){
+                        if (strings.length <= i){
+                            res[i] = String.valueOf(values[i]);
+                        }else if(values.length <= i){
+                            res[i] = strings[i];
+                        }else {
+                            res[i] = strings[i] + values[i];
+                        }
+                    }
+                    return res;
+                }, AggregatorModification::new)
+                .finish("ABab", (result, values) -> (result == null ? "" : result + ", ") + values, AggregatorModification::new);
+        System.out.println(monad.aggregationString(a));
     }
 
     public static void print(Aggregator<Integer, ?> aggregator) {
