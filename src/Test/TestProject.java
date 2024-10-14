@@ -23,7 +23,7 @@ public class TestProject {
         Filter<Integer> filter = i -> i % 2 == 0;
         print(sumLambda.getFilter(filter).getModification("Sum"), textLambda.getFilter(filter).getModification("Text"));
         Integer[] a = {111, 22, 333333};
-        Aggregator<Integer, String> monad = ContainerMonad.from((Integer i) -> String.valueOf(i))
+        Aggregator<Object, String> monad = ContainerMonad.from(Object::toString)
                 .map(String::toCharArray)
                 .mapAggregation("Test", (String[] result, char[] values) -> {
                     String[] strings = result == null ? new String[0] : result;
@@ -40,7 +40,7 @@ public class TestProject {
                     }
                     return res;
                 }, AggregatorModification::new)
-                .finish("ABab", (result, values) -> (result == null ? "" : result + ", ") + values, AggregatorModification::new);
+                .finish("ABab", ContainerFunction.getInstance((res, val) -> res + ", " + val), AggregatorModification::new);
         System.out.println(monad.aggregationString(a));
     }
 

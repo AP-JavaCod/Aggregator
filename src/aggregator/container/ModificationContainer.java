@@ -48,7 +48,7 @@ public class ModificationContainer<T, U> implements Modification<T, U> {
     }
 
     public <F> AggregatorFilterX<T, U, F> getFilterX(Filter<F> fil) {
-        return new AggregatorFilterX<T, U, F>(this) {
+        return new AggregatorFilterX<>(this) {
             @Override
             public boolean filter(F values) {
                 return fil.filter(values);
