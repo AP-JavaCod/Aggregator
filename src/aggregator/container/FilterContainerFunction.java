@@ -6,10 +6,7 @@ public abstract class FilterContainerFunction <T, U> implements ContainerFunctio
 
     @Override
     public U apply(U result, T values) {
-        if (filter(values)){
-            return applyIsFilter(result, values);
-        }
-        return result;
+        return filter(values) ? applyIsFilter(result, values) : result;
     }
 
     public static <N, M> FilterContainerFunction<N, M> crate(ContainerFunction<N, M> function, Filter<N> fil){

@@ -16,7 +16,7 @@ public abstract class FunctionAggregator <T, U> implements Aggregator<T, U> {
     }
 
     public static <N, M> FunctionAggregator<N, M> crate(ContainerFunction<N, M> function){
-        return new FunctionAggregator<N, M>() {
+        return new FunctionAggregator<>() {
             @Override
             protected M applu(M result, N values) {
                 return function.apply(result, values);

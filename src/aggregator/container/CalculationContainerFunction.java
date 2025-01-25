@@ -12,7 +12,7 @@ public abstract class CalculationContainerFunction <T, U> implements ContainerFu
     }
 
     public static <N, M> CalculationContainerFunction<N, M> crate(Transformation<N, M> trans, Calculation<M> cal){
-        return new CalculationContainerFunction<N, M>() {
+        return new CalculationContainerFunction<>() {
             @Override
             public M calculation(M val1, M val2) {
                 return cal.calculation(val1, val2);
