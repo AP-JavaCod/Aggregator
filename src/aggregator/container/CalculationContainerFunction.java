@@ -1,7 +1,6 @@
 package aggregator.container;
 
 import aggregator.function.Calculation;
-import aggregator.function.Filter;
 import aggregator.function.Transformation;
 
 public abstract class CalculationContainerFunction <T, U> implements ContainerFunction<T, U>, Transformation<T, U>, Calculation<U> {
@@ -36,10 +35,6 @@ public abstract class CalculationContainerFunction <T, U> implements ContainerFu
 
     public CalculationContainerFunction<U, U> deleteTransformation(){
         return crate(this);
-    }
-
-    public FilterContainerFunction<T, U> getFilterFunction(Filter<T> fil){
-        return FilterContainerFunction.crate(this, fil);
     }
 
 }

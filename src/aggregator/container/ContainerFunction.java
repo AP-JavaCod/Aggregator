@@ -1,6 +1,7 @@
 package aggregator.container;
 
 import aggregator.FunctionAggregator;
+import aggregator.function.Filter;
 
 public interface ContainerFunction <T, U> {
 
@@ -8,6 +9,10 @@ public interface ContainerFunction <T, U> {
 
     default FunctionAggregator<T, U> getAggregator(){
         return FunctionAggregator.crate(this);
+    }
+
+    default FilterContainerFunction<T, U> getFilterFunction(Filter<T> fil){
+        return FilterContainerFunction.crate(this, fil);
     }
 
 }
