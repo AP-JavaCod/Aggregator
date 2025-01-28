@@ -1,12 +1,13 @@
 package aggregator.container;
 
 import aggregator.function.Calculation;
+import aggregator.function.Filter;
 import aggregator.function.Transformation;
 
 public abstract class CalculationContainerFunction <T, U> implements ContainerFunction<T, U>, Transformation<T, U>, Calculation<U> {
 
     @Override
-    public U apply(U result, T values) {
+    public final U apply(U result, T values) {
         U trans = transformation(values);
         return result == null ? trans : calculation(result, trans);
     }
@@ -27,6 +28,18 @@ public abstract class CalculationContainerFunction <T, U> implements ContainerFu
 
     public static <N> CalculationContainerFunction<N, N> crate(Calculation<N> calculation){
         return crate(v -> v, calculation);
+    }
+
+    public <N> CalculationContainerFunction<N, U> changeType(Transformation<N, U> trans){
+        return crate(trans, this);
+    }
+
+    public CalculationContainerFunction<U, U> deleteTransformation(){
+        return crate(this);
+    }
+
+    public FilterContainerFunction<T, U> getFilterFunction(Filter<T> fil){
+        return FilterContainerFunction.crate(this, fil);
     }
 
 }
