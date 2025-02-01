@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class FunctionAggregator <T, U> implements Aggregator<T, U> {
 
     @Override
-    public final U aggregation(List<T> values) {
+    public U aggregation(List<T> values) {
         U result = null;
         for (T v : values){
             result = apply(result, v);

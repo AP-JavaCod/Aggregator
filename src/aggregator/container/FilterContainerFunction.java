@@ -5,7 +5,7 @@ import aggregator.function.Filter;
 public abstract class FilterContainerFunction <T, U> implements ContainerFunction<T, U>, Filter<T> {
 
     @Override
-    public final U apply(U result, T values) {
+    public U apply(U result, T values) {
         return filter(values) ? applyIsFilter(result, values) : result;
     }
 

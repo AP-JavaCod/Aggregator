@@ -6,7 +6,7 @@ import aggregator.function.Transformation;
 public abstract class CalculationContainerFunction <T, U> implements ContainerFunction<T, U>, Transformation<T, U>, Calculation<U> {
 
     @Override
-    public final U apply(U result, T values) {
+    public U apply(U result, T values) {
         U trans = transformation(values);
         return result == null ? trans : calculation(result, trans);
     }
