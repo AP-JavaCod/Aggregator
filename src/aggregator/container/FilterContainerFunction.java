@@ -1,5 +1,6 @@
 package aggregator.container;
 
+import aggregator.function.Calculation;
 import aggregator.function.Filter;
 
 public abstract class FilterContainerFunction <T, U> implements ContainerFunction<T, U>, Filter<T> {
@@ -22,6 +23,16 @@ public abstract class FilterContainerFunction <T, U> implements ContainerFunctio
             }
 
         };
+    }
+
+    @Override
+    public FilterContainerFunction<T, U> getFilterFunction(Filter<T> fil) {
+       return getFilterFunction(fil, Boolean::logicalAnd);
+    }
+
+    public FilterContainerFunction<T, U> getFilterFunction(Filter<T> fil, Calculation<Boolean> cal){
+        Filter<T> newFilter = (T val) -> cal.calculation(this.filter(val), fil.filter(val));
+        return crate(this::applyIsFilter, newFilter);
     }
 
     protected abstract U applyIsFilter(U result, T values);

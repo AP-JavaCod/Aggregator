@@ -9,7 +9,7 @@ import aggregator.function.Transformation;
 
 import java.util.List;
 
-public abstract class FunctionAggregator <T, U> implements Aggregator<T, U> {
+public abstract class FunctionAggregator <T, U> implements Aggregator<T, U>, ContainerFunction<T, U>{
 
     @Override
     public U aggregation(List<T> values) {
@@ -23,7 +23,7 @@ public abstract class FunctionAggregator <T, U> implements Aggregator<T, U> {
     public static <N, M> FunctionAggregator<N, M> crate(ContainerFunction<N, M> function){
         return new FunctionAggregator<>() {
             @Override
-            protected M apply(M result, N values) {
+            public M apply(M result, N values) {
                 return function.apply(result, values);
             }
         };
@@ -38,13 +38,11 @@ public abstract class FunctionAggregator <T, U> implements Aggregator<T, U> {
     }
 
     public FunctionAggregator<T, U> getFilterAggregator(Filter<T> fil){
-        return crate(FilterContainerFunction.crate(this::apply, fil));
+        return crate(FilterContainerFunction.crate(this, fil));
     }
 
     public ContainerFunction<T, U> getFunction(){
-        return this::apply;
+        return this;
     }
-
-    protected abstract U apply(U result, T values);
 
 }
