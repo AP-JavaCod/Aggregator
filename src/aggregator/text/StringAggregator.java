@@ -1,8 +1,10 @@
-package aggregator;
+package aggregator.text;
+
+import aggregator.Aggregator;
 
 import java.util.List;
 
-public abstract class StringAggregator <T, U> implements Aggregator<T, String>{
+public abstract class StringAggregator <T, U> extends TextFormatAggregator<T, U> {
 
     private final String NAME;
     private final String FORMAT;
@@ -18,8 +20,8 @@ public abstract class StringAggregator <T, U> implements Aggregator<T, String>{
     }
 
     @Override
-    public String aggregation(List<T> values) {
-        return String.format(FORMAT, NAME, aggregationTo(values).toString());
+    public final String aggregation(List<T> values) {
+        return formatText(aggregationTo(values).toString());
     }
 
     public static <N, M> StringAggregator<N, M> crate(String name, Aggregator<N, M> aggregator){
@@ -35,6 +37,9 @@ public abstract class StringAggregator <T, U> implements Aggregator<T, String>{
         };
     }
 
-    protected abstract U aggregationTo(List<T> values);
+    @Override
+    protected String formatText(String result) {
+        return String.format(FORMAT, NAME, result);
+    }
 
 }
