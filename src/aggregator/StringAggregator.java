@@ -23,7 +23,11 @@ public abstract class StringAggregator <T, U> implements Aggregator<T, String>{
     }
 
     public static <N, M> StringAggregator<N, M> crate(String name, Aggregator<N, M> aggregator){
-        return new StringAggregator<N, M>(name) {
+        return crate(name, "%s: %s", aggregator);
+    }
+
+    public static <N, M> StringAggregator<N, M> crate(String name, String format, Aggregator<N, M> aggregator){
+        return new StringAggregator<N, M>(name, format) {
             @Override
             protected M aggregationTo(List<N> values) {
                 return aggregator.aggregation(values);

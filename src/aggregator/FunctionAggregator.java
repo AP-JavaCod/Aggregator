@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class FunctionAggregator <T, U> implements Aggregator<T, U>, ContainerFunction<T, U>{
 
     @Override
-    public U aggregation(List<T> values) {
+    public final U aggregation(List<T> values) {
         U result = null;
         for (T v : values){
             result = apply(result, v);
@@ -37,11 +37,11 @@ public abstract class FunctionAggregator <T, U> implements Aggregator<T, U>, Con
         return CalculationContainerFunction.crate(cal).getAggregator();
     }
 
-    public FunctionAggregator<T, U> getFilterAggregator(Filter<T> fil){
+    public final FunctionAggregator<T, U> getFilterAggregator(Filter<T> fil){
         return crate(FilterContainerFunction.crate(this, fil));
     }
 
-    public ContainerFunction<T, U> getFunction(){
+    public final ContainerFunction<T, U> getFunction(){
         return this;
     }
 

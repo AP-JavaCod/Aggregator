@@ -6,7 +6,7 @@ import aggregator.function.Filter;
 public abstract class FilterContainerFunction <T, U> implements ContainerFunction<T, U>, Filter<T> {
 
     @Override
-    public U apply(U result, T values) {
+    public final U apply(U result, T values) {
         return filter(values) ? applyIsFilter(result, values) : result;
     }
 
@@ -26,11 +26,11 @@ public abstract class FilterContainerFunction <T, U> implements ContainerFunctio
     }
 
     @Override
-    public FilterContainerFunction<T, U> getFilterFunction(Filter<T> fil) {
+    public final FilterContainerFunction<T, U> getFilterFunction(Filter<T> fil) {
        return getFilterFunction(fil, Boolean::logicalAnd);
     }
 
-    public FilterContainerFunction<T, U> getFilterFunction(Filter<T> fil, Calculation<Boolean> cal){
+    public final FilterContainerFunction<T, U> getFilterFunction(Filter<T> fil, Calculation<Boolean> cal){
         Filter<T> newFilter = (T val) -> cal.calculation(this.filter(val), fil.filter(val));
         return crate(this::applyIsFilter, newFilter);
     }
