@@ -21,5 +21,9 @@ public class AggregatorFunctional<T, U> implements Aggregator<T, U> {
 		}
 		return result;
 	}
+	
+	public Instructions<? super T, U> getInstructions(){
+		return INSTRUCTIONS;
+	}
 
 }
