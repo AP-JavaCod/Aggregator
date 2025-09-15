@@ -35,27 +35,13 @@ public class ExampleAggregator {
 		System.out.println(filterTextStr.aggregation(arrStr));
 		
 		System.out.println("\n===AggregatorX===");
-		Aggregator<Integer, Integer> q = new AggregatorX<>(sum, qI) {
-
-			@Override
-			protected Integer getResult(Integer val1, Integer val2) {
-				return val1 / val2;
-			}
-			
-		};
-		Aggregator<Integer, Integer> qF = new AggregatorX<>(sum, qI, i -> i % 2 == 0) {
-
-			@Override
-			protected Integer getResult(Integer val1, Integer val2) {
-				return val1 / val2;
-			}
-			
-		};
-		System.out.println(q.aggregation(arrInt));
-		System.out.println(qF.aggregation(arrInt));
+		AggregatorX<Integer, Integer> q = new AggregatorX<>(sum, qI);
+		AggregatorX<Integer, Integer> qF = new AggregatorX<>(sum, qI, i -> i % 2 == 0);
+		System.out.println(q.aggregation(arrInt, (a, b) -> a / b));
+		System.out.println(qF.aggregation(arrInt).applu((a, b) -> a / b));
 		
 		System.out.println("\n===AggregatorIterable===");
-		Aggregator<Integer, Iterable<Integer>> iterable = new AggregatorIterable<>(sum);
+		AggregatorIterable<Integer, Integer> iterable = new AggregatorIterable<>(sum);
 		for(int s : iterable.aggregation(arrInt)){
 			System.out.println(s);
 		}

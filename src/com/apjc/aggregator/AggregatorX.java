@@ -1,9 +1,10 @@
 package com.apjc.aggregator;
 
 import com.apjc.aggregator.instructions.*;
+import com.apjc.aggregator.function.Calculator;
 import com.apjc.aggregator.function.Filter;
 
-public abstract class AggregatorX <T, U> implements Aggregator<T, U> {
+public class AggregatorX <T, U> implements Aggregator<T, AggregatorX.Result<U>> {
 	
 	private final InstructionsContainer INSTRUCTIONS;
 	
@@ -34,32 +35,38 @@ public abstract class AggregatorX <T, U> implements Aggregator<T, U> {
 	}
 
 	@Override
-	public U aggregation(T[] values) {
-		Result result = null;
+	public Result<U> aggregation(T[] values) {
+		Result<U> result = null;
 		for(T el : values) {
 			if(el == null) {
 				continue;
 			}
 			result = INSTRUCTIONS.applu(result, el);
 		}
-		return getResult(result.values1, result.values2);
+		return result;
 	}
 	
-	protected abstract U getResult(U val1, U val2);
+	public U aggregation(T[] values, Calculator<U> cal) {
+		return aggregation(values).applu(cal);
+	}
 	
-	private class Result{
+	public static class Result<N>{
 		
-		private U values1;
-		private U values2;
+		private N values1;
+		private N values2;
 		
-		public Result(U val1, U val2) {
+		private Result(N val1, N val2) {
 			values1 = val1;
 			values2 = val2;
 		}
 		
+		public N applu(Calculator<N> cal) {
+			return cal.calculate(values1, values2);
+		}
+		
 	}
 	
-	private class InstructionsContainer extends InstructionsFunctional<T, Result>{
+	private class InstructionsContainer extends InstructionsFunctional<T, Result<U>>{
 		
 		private Instructions<? super T, U> instructions1;
 		private Instructions<? super T, U> instructions2;
@@ -70,17 +77,17 @@ public abstract class AggregatorX <T, U> implements Aggregator<T, U> {
 		}
 
 		@Override
-		public AggregatorX<T, U>.Result calculate(AggregatorX<T, U>.Result val1, AggregatorX<T, U>.Result val2) {
+		public AggregatorX.Result<U> calculate(AggregatorX.Result<U> val1, AggregatorX.Result<U> val2) {
 			U result1 = instructions1.calculate(val1.values1,  val2.values1);
 			U result2 = instructions2.calculate(val1.values2, val2.values2);
-			return new Result(result1, result2);
+			return new Result<>(result1, result2);
 		}
 
 		@Override
-		public AggregatorX<T, U>.Result transform(T values) {
+		public AggregatorX.Result<U> transform(T values) {
 			U result1 = instructions1.transform(values);
 			U result2 = instructions2.transform(values);
-			return new Result(result1, result2);
+			return new Result<>(result1, result2);
 		}
 		
 	}
@@ -92,7 +99,7 @@ public abstract class AggregatorX <T, U> implements Aggregator<T, U> {
 		}
 
 		@Override
-		public Result applu(Result result, T values) {
+		public Result<U> applu(Result<U> result, T values) {
 			return filter(values) ? super.applu(result, values) : result;
 		}
 		
