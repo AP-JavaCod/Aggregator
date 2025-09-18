@@ -1,6 +1,7 @@
 package com.apjc.aggregator;
 
-import com.apjc.aggregator.instructions.*;
+import com.apjc.aggregator.instructions.Instructions;
+import com.apjc.aggregator.instructions.InstructionsFilter;
 import com.apjc.aggregator.function.Calculator;
 import com.apjc.aggregator.function.Filter;
 
@@ -11,7 +12,7 @@ public class AggregatorX <T, U> extends AggregatorFunctional<T, AggregatorX.Resu
 	}
 	
 	public AggregatorX(Instructions<? super T, U> ins1, Instructions<? super T, U> ins2, Filter<T> fil) {
-		super(new InstructionsContainerFilter<>(ins1, ins2) {
+		super(new InstructionsFilter<>(new InstructionsContainer<>(ins1, ins2)) {
 			
 			@Override
 			public boolean filter(T values) {
@@ -22,7 +23,7 @@ public class AggregatorX <T, U> extends AggregatorFunctional<T, AggregatorX.Resu
 	}
 	
 	public AggregatorX(InstructionsFilter<? super T, U> ins1, Instructions<? super T, U> ins2) {
-		super(new InstructionsContainerFilter<>(ins1, ins2) {
+		super(new InstructionsFilter<>(new InstructionsContainer<>(ins1, ins2)) {
 			
 			@Override
 			public boolean filter(T values) {
@@ -41,6 +42,11 @@ public class AggregatorX <T, U> extends AggregatorFunctional<T, AggregatorX.Resu
 		private N values1;
 		private N values2;
 		
+		private Result() {
+			values1 = null;
+			values2 = null;
+		}
+		
 		private Result(N val1, N val2) {
 			values1 = val1;
 			values2 = val2;
@@ -52,7 +58,7 @@ public class AggregatorX <T, U> extends AggregatorFunctional<T, AggregatorX.Resu
 		
 	}
 	
-	private static class InstructionsContainer<E, N> extends InstructionsFunctional<E, Result<N>>{
+	private static class InstructionsContainer<E, N> implements Instructions<E, Result<N>>{
 		
 		private Instructions<? super E, N> instructions1;
 		private Instructions<? super E, N> instructions2;
@@ -63,30 +69,16 @@ public class AggregatorX <T, U> extends AggregatorFunctional<T, AggregatorX.Resu
 		}
 
 		@Override
-		public AggregatorX.Result<N> calculate(AggregatorX.Result<N> val1, AggregatorX.Result<N> val2) {
-			N result1 = instructions1.calculate(val1.values1,  val2.values1);
-			N result2 = instructions2.calculate(val1.values2, val2.values2);
-			return new Result<>(result1, result2);
-		}
-
-		@Override
-		public AggregatorX.Result<N> transform(E values) {
-			N result1 = instructions1.transform(values);
-			N result2 = instructions2.transform(values);
-			return new Result<>(result1, result2);
-		}
-		
-	}
-	
-	private abstract static class InstructionsContainerFilter<E, N> extends InstructionsContainer<E, N> implements Filter<E>{
-
-		public InstructionsContainerFilter(Instructions<? super E, N> ins1, Instructions<? super E, N> ins2) {
-			super(ins1, ins2);
-		}
-
-		@Override
 		public Result<N> applu(Result<N> result, E values) {
-			return filter(values) ? super.applu(result, values) : result;
+			Result<N> data = result != null ? result : new Result<>();
+			N val1 = instructions1.applu(data.values1, values);
+			N val2 = instructions2.applu(data.values2, values);
+			return new Result<>(val1, val2);
+		}
+
+		@Override
+		public Aggregator<E, Result<N>> getAggregator() {
+			return new AggregatorX<>(instructions1, instructions2);
 		}
 		
 	}

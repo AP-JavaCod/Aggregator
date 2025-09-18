@@ -25,21 +25,11 @@ public class BuilderInstructions {
 	}
 	
 	public static <T, U> InstructionsFilter<T, U> createInstructionsFilter(Calculator<U> cal, Filter<T> fil, Converter<T, U> con){
-		return new InstructionsFilter<>() {
+		return new InstructionsFilter<>(createInstructions(cal, con)) {
 
 			@Override
 			public boolean filter(T values) {
 				return fil.filter(values);
-			}
-
-			@Override
-			public U calculate(U val1, U val2) {
-				return cal.calculate(val1, val2);
-			}
-
-			@Override
-			public U transform(T values) {
-				return con.transform(values);
 			}
 			
 		};
