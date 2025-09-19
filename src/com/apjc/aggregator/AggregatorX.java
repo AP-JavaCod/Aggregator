@@ -1,36 +1,18 @@
 package com.apjc.aggregator;
 
 import com.apjc.aggregator.instructions.Instructions;
-import com.apjc.aggregator.instructions.InstructionsFilter;
+import com.apjc.aggregator.instructions.BuilderInstructions;
 import com.apjc.aggregator.function.Calculator;
 import com.apjc.aggregator.function.Filter;
 
 public class AggregatorX <T, U> extends AggregatorFunctional<T, AggregatorX.Result<U>> {
 	
 	public AggregatorX(Instructions<? super T, U> ins1, Instructions<? super T, U> ins2) {
-		super(new InstructionsContainer<>(ins1, ins2));
+		super(new InstructionsContainerX<>(ins1, ins2));
 	}
 	
 	public AggregatorX(Instructions<? super T, U> ins1, Instructions<? super T, U> ins2, Filter<T> fil) {
-		super(new InstructionsFilter<>(new InstructionsContainer<>(ins1, ins2)) {
-			
-			@Override
-			public boolean filter(T values) {
-				return fil.filter(values);
-			}
-			
-		});
-	}
-	
-	public AggregatorX(InstructionsFilter<? super T, U> ins1, Instructions<? super T, U> ins2) {
-		super(new InstructionsFilter<>(new InstructionsContainer<>(ins1, ins2)) {
-			
-			@Override
-			public boolean filter(T values) {
-				return ins1.filter(values);
-			}
-			
-		});
+		super(BuilderInstructions.createInstructionsFilter(new InstructionsContainerX<>(ins1, ins2), fil));
 	}
 	
 	public U aggregation(T[] values, Calculator<U> cal) {
@@ -58,12 +40,12 @@ public class AggregatorX <T, U> extends AggregatorFunctional<T, AggregatorX.Resu
 		
 	}
 	
-	private static class InstructionsContainer<E, N> implements Instructions<E, Result<N>>{
+	private static class InstructionsContainerX<E, N> implements Instructions<E, Result<N>>{
 		
 		private Instructions<? super E, N> instructions1;
 		private Instructions<? super E, N> instructions2;
 		
-		public InstructionsContainer(Instructions<? super E, N> ins1, Instructions<? super E, N> ins2) {
+		public InstructionsContainerX(Instructions<? super E, N> ins1, Instructions<? super E, N> ins2) {
 			instructions1 = ins1;
 			instructions2 = ins2;
 		}

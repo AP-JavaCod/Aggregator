@@ -1,15 +1,14 @@
 package com.apjc.aggregator.derivatives;
 
 import java.util.Iterator;
-import com.apjc.aggregator.*;
+import com.apjc.aggregator.ContainerInstructions;
+import com.apjc.aggregator.Aggregator;
 import com.apjc.aggregator.instructions.*;
 
-public class AggregatorIterable <T, U> implements Aggregator<T, Iterable<U>>{
-	
-	private final Instructions<? super T, U> INSTRUCTIONS;
+public class AggregatorIterable <T, U> extends ContainerInstructions<T, U> implements Aggregator<T, Iterable<U>>{
 	
 	public AggregatorIterable(Instructions<? super T, U> instructions) {
-		INSTRUCTIONS = instructions;
+		super(instructions);
 	}
 
 	@Override
@@ -22,10 +21,6 @@ public class AggregatorIterable <T, U> implements Aggregator<T, Iterable<U>>{
 			}
 			
 		};
-	}
-	
-	public Instructions<? super T, U> getInstructions(){
-		return INSTRUCTIONS;
 	}
 	
 	private class IteratorCalculator implements Iterator<U>{
@@ -45,11 +40,10 @@ public class AggregatorIterable <T, U> implements Aggregator<T, Iterable<U>>{
 
 		@Override
 		public U next() {
-			result = INSTRUCTIONS.applu(result, DATA[index]);
+			result = getInstructions().applu(result, DATA[index]);
 			index++;
 			return result;
 		}
-		
 		
 	}
 

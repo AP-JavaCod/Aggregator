@@ -2,12 +2,10 @@ package com.apjc.aggregator;
 
 import com.apjc.aggregator.instructions.Instructions;
 
-public class AggregatorFunctional<T, U> implements Aggregator<T, U> {
-	
-	private final Instructions<? super T, U> INSTRUCTIONS;
+public class AggregatorFunctional<T, U> extends ContainerInstructions<T, U> implements Aggregator<T, U> {
 	
 	public AggregatorFunctional(Instructions<? super T, U> instructions){
-		INSTRUCTIONS = instructions;
+		super(instructions);
 	}
 
 	@Override
@@ -17,13 +15,9 @@ public class AggregatorFunctional<T, U> implements Aggregator<T, U> {
 			if(el == null) {
 				continue;
 			}
-			result = INSTRUCTIONS.applu(result, el);
+			result = getInstructions().applu(result, el);
 		}
 		return result;
-	}
-	
-	public Instructions<? super T, U> getInstructions(){
-		return INSTRUCTIONS;
 	}
 
 }

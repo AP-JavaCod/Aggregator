@@ -24,8 +24,8 @@ public class BuilderInstructions {
 		return createInstructions(cal, t -> t);
 	}
 	
-	public static <T, U> InstructionsFilter<T, U> createInstructionsFilter(Calculator<U> cal, Filter<T> fil, Converter<T, U> con){
-		return new InstructionsFilter<>(createInstructions(cal, con)) {
+	public static <T, U> InstructionsFilter<T, U> createInstructionsFilter(Instructions<T, U> ins, Filter<T> fil){
+		return new InstructionsFilter<>(ins) {
 
 			@Override
 			public boolean filter(T values) {
@@ -33,6 +33,10 @@ public class BuilderInstructions {
 			}
 			
 		};
+	}
+	
+	public static <T, U> InstructionsFilter<T, U> createInstructionsFilter(Calculator<U> cal, Filter<T> fil, Converter<T, U> con){
+		return createInstructionsFilter(createInstructions(cal, con), fil);
 	}
 	
 	public static <U> InstructionsFilter<U, U> createInstructionsFilter(Calculator<U> cal, Filter<U> fil){
