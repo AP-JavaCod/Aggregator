@@ -2,7 +2,6 @@ package com.apjc.example;
 
 import com.apjc.aggregator.*;
 import com.apjc.aggregator.instructions.*;
-import com.apjc.aggregator.derivatives.AggregatorConditionals;
 import com.apjc.aggregator.derivatives.AggregatorIterable;
 
 public class ExampleAggregator {
@@ -18,7 +17,7 @@ public class ExampleAggregator {
 		Aggregator<Object, String> textInt = BuilderInstructions.createInstructions(
 				(v1, v2) -> v1 + "; " + v2, Object::toString).getAggregator();
 		Aggregator<String, Integer> sumStr = BuilderInstructions.createInstructions(
-				Integer::sum, (String i) -> i.length()).getAggregator();
+				Integer::sum, String::length).getAggregator();
 		Aggregator<String, String> textStr = BuilderInstructions.createInstructions(
 				(String v1, String v2) -> v1 + "; " + v2).getAggregator();
 		System.out.println(sumInt.aggregation(arrInt));
@@ -47,13 +46,16 @@ public class ExampleAggregator {
 			System.out.println(s);
 		}
 		
-		System.out.println("\n===AggregatorConditionals===");
-		Instructions<Integer, String> instructionsA = BuilderInstructions.createInstructions((a, b) -> a + b, i -> i.toString() + "%2V ");
-		Instructions<Integer, String> instructionsB = BuilderInstructions.createInstructions((a, b) -> a + b, i -> i.toString() + "%3V ");
-		Instructions<Integer, String> instructionsC = BuilderInstructions.createInstructions((a, b) -> a + b, i -> i.toString() + "%NV ");
-		AggregatorConditionals<Integer, String> conditionals = new AggregatorConditionals<>(instructionsA, i -> i % 2 == 0);
-		conditionals.add(instructionsB, i -> i % 3 == 0);
-		conditionals.add(instructionsC, null);
+		System.out.println("\n===InstructionsConditionals===");
+		Instructions<Integer, String> insB = BuilderInstructions.createInstructions((a, b) -> a + " " + b, 
+				i -> i.toString() + "%3V");
+		Instructions<Integer, String> def = BuilderInstructions.createInstructions((a, b) -> a + " " + b, 
+				i -> i.toString() + "%NV");
+		InstructionsConditionals<Integer, String> cond = new InstructionsConditionals<>(BuilderInstructions
+				.createInstructionsFilter((a, b) -> a + " " + b, i -> i % 2 == 0, i -> i.toString() + "%2V"));
+		cond.add(insB, i -> i % 3 == 0);
+		cond.add(def, null);
+		Aggregator<Integer, String> conditionals = cond.getAggregator();
 		System.out.println(conditionals.aggregation(arrInt));
 	}
 
