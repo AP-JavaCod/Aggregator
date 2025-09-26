@@ -7,7 +7,7 @@ import com.apjc.aggregator.function.Filter;
 
 public abstract class InstructionsFilter <T, U> extends ContainerInstructions<T, U> implements Instructions<T, U>, Filter<T> {
 		
-	public InstructionsFilter(Instructions<T, U> instructions) {
+	public InstructionsFilter(Instructions<? super T, U> instructions) {
 		super(instructions);
 	}
 	

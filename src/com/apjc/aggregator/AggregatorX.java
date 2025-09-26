@@ -21,8 +21,8 @@ public class AggregatorX <T, U> extends AggregatorFunctional<T, AggregatorX.Resu
 	
 	public static class Result<N>{
 		
-		private N values1;
-		private N values2;
+		private final N values1;
+		private final N values2;
 		
 		private Result() {
 			values1 = null;
@@ -42,8 +42,8 @@ public class AggregatorX <T, U> extends AggregatorFunctional<T, AggregatorX.Resu
 	
 	private static class InstructionsContainerX<E, N> implements Instructions<E, Result<N>>{
 		
-		private Instructions<? super E, N> instructions1;
-		private Instructions<? super E, N> instructions2;
+		private final Instructions<? super E, N> instructions1;
+		private final Instructions<? super E, N> instructions2;
 		
 		public InstructionsContainerX(Instructions<? super E, N> ins1, Instructions<? super E, N> ins2) {
 			instructions1 = ins1;

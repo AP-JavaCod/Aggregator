@@ -24,7 +24,7 @@ public class BuilderInstructions {
 		return createInstructions(cal, t -> t);
 	}
 	
-	public static <T, U> InstructionsFilter<T, U> createInstructionsFilter(Instructions<T, U> ins, Filter<T> fil){
+	public static <T, U> InstructionsFilter<T, U> createInstructionsFilter(Instructions<? super T, U> ins, Filter<T> fil){
 		return new InstructionsFilter<>(ins) {
 
 			@Override

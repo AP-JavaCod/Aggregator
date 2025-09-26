@@ -13,14 +13,7 @@ public class AggregatorIterable <T, U> extends ContainerInstructions<T, U> imple
 
 	@Override
 	public Iterable<U> aggregation(T[] data){
-		return new Iterable<>() {
-
-			@Override
-			public Iterator<U> iterator() {
-				return new IteratorCalculator(data);
-			}
-			
-		};
+		return () -> new IteratorCalculator(data);
 	}
 	
 	private class IteratorCalculator implements Iterator<U>{

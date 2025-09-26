@@ -2,6 +2,7 @@ package com.apjc.example;
 
 import com.apjc.aggregator.*;
 import com.apjc.aggregator.instructions.*;
+import com.apjc.aggregator.derivatives.AggregatorConditionals;
 import com.apjc.aggregator.derivatives.AggregatorIterable;
 
 public class ExampleAggregator {
@@ -46,6 +47,14 @@ public class ExampleAggregator {
 			System.out.println(s);
 		}
 		
+		System.out.println("\n===AggregatorConditionals===");
+		Instructions<Integer, String> instructionsA = BuilderInstructions.createInstructions((a, b) -> a + b, i -> i.toString() + "%2V ");
+		Instructions<Integer, String> instructionsB = BuilderInstructions.createInstructions((a, b) -> a + b, i -> i.toString() + "%3V ");
+		Instructions<Integer, String> instructionsC = BuilderInstructions.createInstructions((a, b) -> a + b, i -> i.toString() + "%NV ");
+		AggregatorConditionals<Integer, String> conditionals = new AggregatorConditionals<>(instructionsA, i -> i % 2 == 0);
+		conditionals.add(instructionsB, i -> i % 3 == 0);
+		conditionals.add(instructionsC, null);
+		System.out.println(conditionals.aggregation(arrInt));
 	}
 
 }
