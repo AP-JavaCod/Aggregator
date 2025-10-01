@@ -5,6 +5,7 @@ import com.apjc.aggregator.instructions.BuilderInstructions;
 import com.apjc.aggregator.function.Calculator;
 import com.apjc.aggregator.function.Filter;
 
+@Deprecated
 public class AggregatorX <T, U> extends AggregatorFunctional<T, AggregatorX.Result<U>> {
 	
 	public AggregatorX(Instructions<? super T, U> ins1, Instructions<? super T, U> ins2) {

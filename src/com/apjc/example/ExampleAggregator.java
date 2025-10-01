@@ -2,7 +2,6 @@ package com.apjc.example;
 
 import com.apjc.aggregator.*;
 import com.apjc.aggregator.instructions.*;
-import com.apjc.aggregator.derivatives.AggregatorIterable;
 
 public class ExampleAggregator {
 
@@ -25,7 +24,7 @@ public class ExampleAggregator {
 		System.out.println(sumStr.aggregation(arrStr));
 		System.out.println(textStr.aggregation(arrStr));
 		
-		System.out.println("\n===AggregatorFilter===");
+		System.out.println("\n===InstructionsFilter===");
 		Aggregator<Integer, String> filterTextInt = BuilderInstructions.createInstructionsFilter(
 				(String v1, String v2) -> v1 + "; " + v2, (Integer i) -> i % 2 == 0, Object::toString)
 				.getAggregator();
@@ -34,11 +33,11 @@ public class ExampleAggregator {
 		System.out.println(filterTextInt.aggregation(arrInt));
 		System.out.println(filterTextStr.aggregation(arrStr));
 		
-		System.out.println("\n===AggregatorX===");
-		AggregatorX<Integer, Integer> q = new AggregatorX<>(sum, qI);
-		AggregatorX<Integer, Integer> qF = new AggregatorX<>(sum, qI, i -> i % 2 == 0);
-		System.out.println(q.aggregation(arrInt, (a, b) -> a / b));
-		System.out.println(qF.aggregation(arrInt).applu((a, b) -> a / b));
+		System.out.println("\n===InstructionsX===");
+		InstructionsX<Integer, Integer> q = new InstructionsX<>(sum, qI);
+		Instructions<Integer,InstructionsX.Result<Integer>> qF = BuilderInstructions.createInstructionsFilter(q, i -> i % 2 == 0);
+		System.out.println(q.getAggregator().aggregation(arrInt).applu((a, b) -> a / b));
+		System.out.println(qF.getAggregator().aggregation(arrInt).applu((a, b) -> a / b));
 		
 		System.out.println("\n===AggregatorIterable===");
 		AggregatorIterable<Integer, Integer> iterable = new AggregatorIterable<>(sum);
@@ -51,12 +50,11 @@ public class ExampleAggregator {
 				i -> i.toString() + "%3V");
 		Instructions<Integer, String> def = BuilderInstructions.createInstructions((a, b) -> a + " " + b, 
 				i -> i.toString() + "%NV");
-		InstructionsConditionals<Integer, String> cond = new InstructionsConditionals<>(BuilderInstructions
+		InstructionsConditionals<Integer, String> conditionals = new InstructionsConditionals<>(BuilderInstructions
 				.createInstructionsFilter((a, b) -> a + " " + b, i -> i % 2 == 0, i -> i.toString() + "%2V"));
-		cond.add(insB, i -> i % 3 == 0);
-		cond.add(def, null);
-		Aggregator<Integer, String> conditionals = cond.getAggregator();
-		System.out.println(conditionals.aggregation(arrInt));
+		conditionals.add(insB, i -> i % 3 == 0);
+		conditionals.add(def, null);
+		System.out.println(conditionals.getAggregator().aggregation(arrInt));
 	}
 
 }

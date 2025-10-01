@@ -1,8 +1,7 @@
-package com.apjc.aggregator.derivatives;
+package com.apjc.aggregator;
 
 import java.util.Iterator;
-import com.apjc.aggregator.ContainerInstructions;
-import com.apjc.aggregator.Aggregator;
+
 import com.apjc.aggregator.instructions.*;
 
 public class AggregatorIterable <T, U> extends ContainerInstructions<T, U> implements Aggregator<T, Iterable<U>>{
