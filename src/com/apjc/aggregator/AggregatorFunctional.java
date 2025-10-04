@@ -12,9 +12,6 @@ public class AggregatorFunctional<T, U> extends ContainerInstructions<T, U> impl
 	public U aggregation(T[] values) {
 		U result = null;
 		for(T el : values) {
-			if(el == null) {
-				continue;
-			}
 			result = getInstructions().applu(result, el);
 		}
 		return result;

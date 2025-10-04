@@ -9,8 +9,11 @@ public abstract class InstructionsFunctional<T, U> implements Instructions<T, U>
 	
 	@Override
 	public U applu(U result, T values) {
+		if(values == null) {
+			return result;
+		}
 		U pas = transform(values);
-		return result != null ? calculate(result, pas) : pas;
+		return result== null ? pas : calculate(result, pas);
 	}
 	
 	@Override

@@ -6,7 +6,7 @@ import com.apjc.aggregator.instructions.*;
 public class ExampleAggregator {
 
 	public static void main(String[] args) {
-		Integer[] arrInt = {7, 5, 4, 9, 2, 18, 3};
+		Integer[] arrInt = {7, 5, 4, null, 9, 2, 18, 3};
 		String[] arrStr = {"Test", "Cat", "Java", "C++", "Dog", "Bob"};
 		Instructions<Integer, Integer> sum = BuilderInstructions.createInstructions(Integer::sum);
 		Instructions<Object, Integer> qI = BuilderInstructions.createInstructions(Integer::sum, _ -> 1);

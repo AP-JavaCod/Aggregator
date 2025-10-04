@@ -34,7 +34,7 @@ public class InstructionsConditionals<T, U> extends ContainerInstructions<T, U> 
 
 	@Override
 	public U applu(U result, T values) {
-		if(FILTER == null || FILTER.filter(values)) {
+		if(FILTER == null || (values != null && FILTER.filter(values))) {
 			return getInstructions().applu(result, values);
 		}else if(next != null) {
 			return next.applu(result, values);
