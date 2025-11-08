@@ -20,11 +20,18 @@ public class BuilderInstructions {
 		};
 	}
 	
-	public static <U> InstructionsFunctional<U, U> createInstructions(Calculator<U> cal){
-		return createInstructions(cal, t -> t);
+	public static <U> InstructionsType<U> createInstructions(Calculator<U> cal){
+		return new InstructionsType<>() {
+
+			@Override
+			public U calculate(U val1, U val2) {
+				return cal.calculate(val1, val2);
+			}
+			
+		};
 	}
 	
-	public static <T, U> InstructionsFilter<T, U> createInstructionsFilter(Instructions<? super T, U> ins, Filter<T> fil){
+	public static <T, U> InstructionsFilter<T, U> createInstructionsFilter(Instructions<T, U> ins, Filter<T> fil){
 		return new InstructionsFilter<>(ins) {
 
 			@Override
@@ -40,7 +47,8 @@ public class BuilderInstructions {
 	}
 	
 	public static <U> InstructionsFilter<U, U> createInstructionsFilter(Calculator<U> cal, Filter<U> fil){
-		return createInstructionsFilter(cal, fil, t -> t);
+		Instructions<U, U> ins = createInstructions(cal);
+		return createInstructionsFilter(ins, fil);
 	}
 	
 }

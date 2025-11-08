@@ -1,7 +1,5 @@
 package com.apjc.aggregator.instructions;
 
-import com.apjc.aggregator.Aggregator;
-import com.apjc.aggregator.AggregatorFunctional;
 import com.apjc.aggregator.function.Calculator;
 
 public class InstructionsX<T, U> implements Instructions<T, InstructionsX.Result<U>> {
@@ -20,11 +18,6 @@ public class InstructionsX<T, U> implements Instructions<T, InstructionsX.Result
 		U val1 = INSTRUCTIONS1.applu(data.values1, values);
 		U val2 = INSTRUCTIONS2.applu(data.values2, values);
 		return new Result<>(val1, val2);
-	}
-
-	@Override
-	public Aggregator<T, Result<U>> getAggregator() {
-		return new AggregatorFunctional<>(this);
 	}
 	
 	public static class Result<N>{

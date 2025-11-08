@@ -1,7 +1,5 @@
 package com.apjc.aggregator.instructions;
 
-import com.apjc.aggregator.Aggregator;
-import com.apjc.aggregator.AggregatorFunctional;
 import com.apjc.aggregator.ContainerInstructions;
 import com.apjc.aggregator.function.Filter;
 
@@ -40,11 +38,6 @@ public class InstructionsConditionals<T, U> extends ContainerInstructions<T, U> 
 			return next.applu(result, values);
 		}
 		return result;
-	}
-
-	@Override
-	public Aggregator<T, U> getAggregator() {
-		return new AggregatorFunctional<>(this);
 	}
 
 }
