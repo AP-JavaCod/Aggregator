@@ -22,8 +22,8 @@ public class InstructionsX<T, U> implements Instructions<T, InstructionsX.Result
 	
 	public static class Result<N>{
 		
-		private N values1;
-		private N values2;
+		private final N values1;
+		private final N values2;
 		
 		private Result(N values1, N values2) {
 			this.values1 = values1;
