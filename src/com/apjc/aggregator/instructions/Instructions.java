@@ -1,6 +1,5 @@
 package com.apjc.aggregator.instructions;
 
-import com.apjc.aggregator.function.CreateAggregator;
 import com.apjc.aggregator.Aggregator;
 import com.apjc.aggregator.AggregatorFunctional;
 
@@ -14,6 +13,12 @@ public interface Instructions <T, U>  {
 	
 	default <N> Aggregator<T, N> createAggregator(CreateAggregator<T, U, N> agg){
 		return agg.create(this);
+	}
+	
+	public static interface CreateAggregator<E, N, R> {
+		
+		Aggregator<E, R> create(Instructions<E, N> instructions);
+		
 	}
 	
 }

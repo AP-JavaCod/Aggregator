@@ -50,10 +50,9 @@ public class ExampleAggregator {
 				i -> i.toString() + "%3V");
 		Instructions<Integer, String> def = BuilderInstructions.createInstructions((a, b) -> a + " " + b, 
 				i -> i.toString() + "%NV");
-		InstructionsConditionals<Integer, String> conditionals = new InstructionsConditionals<>(BuilderInstructions
-				.createInstructionsFilter((a, b) -> a + " " + b, i -> i % 2 == 0, i -> i.toString() + "%2V"));
-		conditionals.add(insB, i -> i % 3 == 0);
-		conditionals.add(def, null);
+		InstructionsConditionals<Integer, String> conditionals =  new InstructionsConditionals<>(def);
+		conditionals.add(BuilderInstructions.createInstructionsFilter((a, b) -> a + " " + b, i -> i % 2 == 0, i -> i.toString() + "%2V"));
+		conditionals.add(BuilderInstructions.createInstructionsFilter(insB, i -> i % 3 == 0));
 		System.out.println(conditionals.createAggregator().aggregation(arrInt));
 	}
 
