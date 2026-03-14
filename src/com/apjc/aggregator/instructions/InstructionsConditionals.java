@@ -27,7 +27,7 @@ public class InstructionsConditionals<T, U> extends ContainerInstructions<T, U> 
 				return ins.applu(result, values);
 			}
 		}
-		return getInstructions().applu(result, values);
+		return instructionsApply(result, values);
 	}
 
 }

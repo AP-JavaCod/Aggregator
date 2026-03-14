@@ -11,7 +11,7 @@ public abstract class InstructionsFilter <T, U> extends ContainerInstructions<T,
 	
 	@Override
 	public U applu(U result, T values) {
-		return values != null && filter(values) ? getInstructions().applu(result, values) : result;
+		return values != null && filter(values) ? instructionsApply(result, values) : result;
 	}
 
 }

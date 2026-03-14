@@ -1,23 +1,22 @@
 package com.apjc.aggregator.instructions;
 
+import com.apjc.aggregator.ContainerInstructions;
 import com.apjc.aggregator.function.Calculator;
 
-public class InstructionsX<T, U> implements Instructions<T, InstructionsX.Result<U>> {
-
-	private final Instructions<? super T, U> INSTRUCTIONS1;
-	private final Instructions<? super T, U> INSTRUCTIONS2;
+public class InstructionsX<T, U> extends ContainerInstructions<T, InstructionsX.Result<U>> implements Instructions<T, InstructionsX.Result<U>> {
 	
 	public InstructionsX(Instructions<? super T, U> instructions1, Instructions<? super T, U> instructions2) {
-		INSTRUCTIONS1 = instructions1;
-		INSTRUCTIONS2 = instructions2;
+		super((res, val) -> {
+			Result<U> data = res != null ? res : new Result<>(null, null);
+			U val1 = instructions1.applu(data.values1, val);
+			U val2 = instructions2.applu(data.values2, val);
+			return new Result<>(val1, val2);
+		});
 	}
 	
 	@Override
 	public Result<U> applu(Result<U> result, T values) {
-		Result<U> data = result != null ? result : new Result<>(null, null);
-		U val1 = INSTRUCTIONS1.applu(data.values1, values);
-		U val2 = INSTRUCTIONS2.applu(data.values2, values);
-		return new Result<>(val1, val2);
+		return instructionsApply(result, values);
 	}
 	
 	public static class Result<N>{
