@@ -27,7 +27,7 @@ public class ExampleAggregator {
 		System.out.println("\n===InstructionsFilter===");
 		Aggregator<Integer, String> filterTextInt = BuilderInstructions.createInstructionsFilter(
 				(String v1, String v2) -> v1 + "; " + v2, (Integer i) -> i % 2 == 0, Object::toString)
-				.createAggregator(AggregatorFunctional::new);
+				.createAggregator();
 		Aggregator<String, String> filterTextStr = BuilderInstructions.createInstructionsFilter(
 				(String v1, String v2) -> v1 + "; " + v2, (String i) -> i.contains("a")).createAggregator();
 		System.out.println(filterTextInt.aggregation(arrInt));
@@ -36,11 +36,12 @@ public class ExampleAggregator {
 		System.out.println("\n===InstructionsX===");
 		InstructionsX<Integer, Integer> q = new InstructionsX<>(sum, qI);
 		Instructions<Integer,InstructionsX.Result<Integer>> qF = BuilderInstructions.createInstructionsFilter(q, i -> i % 2 == 0);
-		System.out.println(q.createAggregator().aggregation(arrInt).applu((a, b) -> a / b));
+		AggregatorX<Integer, Integer> aggX = new AggregatorX<>(q, (a, b) -> a / b);
+		System.out.println(aggX.aggregation(arrInt));
 		System.out.println(qF.createAggregator().aggregation(arrInt).applu((a, b) -> a / b));
 		
 		System.out.println("\n===AggregatorIterable===");
-		Aggregator<Integer, Iterable<Integer>> iterable = sum.createAggregator(AggregatorIterable::new);
+		Aggregator<Integer, Iterable<Integer>> iterable = new AggregatorIterable<>(sum);
 		for(int s : iterable.aggregation(arrInt)){
 			System.out.println(s);
 		}

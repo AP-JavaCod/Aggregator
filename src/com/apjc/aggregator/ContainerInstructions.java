@@ -13,5 +13,9 @@ public class ContainerInstructions <T, U> {
 	public Instructions<? super T, U> getInstructions(){
 		return INSTRUCTIONS;
 	}
+	
+	public U instructionsApply(U res, T value) {
+		return INSTRUCTIONS.applu(res, value);
+	}
 
 }

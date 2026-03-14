@@ -31,7 +31,7 @@ public class AggregatorIterable <T, U> extends ContainerInstructions<T, U> imple
 
 		@Override
 		public U next() {
-			result = getInstructions().applu(result, DATA[index]);
+			result = instructionsApply(result, DATA[index]);
 			index++;
 			return result;
 		}

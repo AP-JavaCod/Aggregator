@@ -11,14 +11,4 @@ public interface Instructions <T, U>  {
 		return new AggregatorFunctional<>(this);
 	}
 	
-	default <N> Aggregator<T, N> createAggregator(CreateAggregator<T, U, N> agg){
-		return agg.create(this);
-	}
-	
-	public static interface CreateAggregator<E, N, R> {
-		
-		Aggregator<E, R> create(Instructions<E, N> instructions);
-		
-	}
-	
 }
